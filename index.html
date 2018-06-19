@@ -20,10 +20,33 @@
             crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
+
     <title>Notify gate</title>
+    <style>
+        /* Code Styles */
+        pre {
+            white-space: pre-wrap;
+            white-space: -moz-pre-wrap;
+            white-space: -o-pre-wrap;
+            word-wrap: break-word;
+            border-radius: 5px;
+            background: #f9f9f9;
+            border: 1px solid gray;
+            font-family: Monaco, Menlo, Consolas, "Courier New", monospace !important;
+        }
+
+        .notice-usage {
+            font-size: 15px;
+            color: gray;
+            font-style: italic;
+        }
+
+    </style>
 </head>
 <body>
-<div class="container" style="margin-top: 100px">
+
+<div class="container" style="margin-top: 50px">
+    <h3>Notification gate</h3>
     <form id="registerServiceForm">
         <div class="form-group">
             <label for="name">Register service</label>
@@ -38,6 +61,7 @@
         </div>
         <button id="register" class="btn btn-primary">Submit</button>
     </form>
+    <div class="container" id="usage" style="display: none;"></div>
 </div>
 
 
@@ -59,6 +83,8 @@
                 $("#errorForm").css('display', 'none');
                 $("#token").val(data.Token);
                 $("#tokenForm").css('display', 'block');
+                $("#register").css('display', 'none');
+                ShowHelp(data.Token)
             },
             error: function (data) {
                 $("#tokenForm").css('display', 'none');
@@ -68,6 +94,39 @@
             }
         });
     });
+
+
+    function ShowHelp(token) {
+
+        let divTelegram = $('<div></div>');
+
+        $(divTelegram).html(
+                "        Telegram:<br>" +
+                "        <pre><br>" +
+                "            curl --header \"Content-Type: application/json\" <br>" +
+                "            --header \"X-AUTH-TOKEN: " + token + "\"<br>" +
+                "            --request POST <br>" +
+                "            --data '{\"type\": \"TelegramChannel\", \"message\": \"test for telegram\",  \"uids\" : [\"CHANNEL_ID\", \"CHANNEL2_ID\"]}'<br>" +
+                "            " + window.location + "notify<br>" +
+                "        </pre>");
+
+        let divSlack = $('<div></div>');
+
+        $(divSlack).html(
+                "        Slack:<br>" +
+                "        <pre><br>" +
+                "            curl --header \"Content-Type: application/json\" <br>" +
+                "            --header \"X-AUTH-TOKEN: " + token + "\"<br>" +
+                "            --request POST <br>" +
+                "            --data '{\"type\": \"SlackChannel\", \"message\": \"test for slack\",  \"uids\" : [\"CHANNEL_ID\", \"CHANNEL2_ID\"]}'<br>" +
+                "            " + window.location + "notify<br>" +
+                "        </pre>");
+
+        $("#usage")
+                .append("<h4>Usage</h4><span class='notice-usage'>Replace CHANNEL_ID with actual channel id<span>")
+                .append(divTelegram).css('display', 'block')
+                .append(divSlack).css('display', 'block');
+    }
 
 </script>
 </body>
