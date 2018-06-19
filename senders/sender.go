@@ -1,6 +1,8 @@
 package senders
 
-import "fmt"
+import (
+	"jgit.me/tools/notify_gate/utils"
+)
 
 type Notify struct {
 	Type    string   `json:"type"`
@@ -10,7 +12,7 @@ type Notify struct {
 
 func Send(n *Notify) error {
 
-	fmt.Println("Sender")
+	utils.ShowDebugMessage("Sender")
 
 	switch n.Type {
 	case "TelegramChannel":
@@ -20,7 +22,7 @@ func Send(n *Notify) error {
 		}
 
 	case "SlackChannel":
-		err := SendToTelegramChat(n)
+		err := SendToSlackChat(n)
 		if err != nil {
 			return err
 		}

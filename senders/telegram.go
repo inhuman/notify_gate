@@ -6,10 +6,9 @@ import (
 	"fmt"
 )
 
-
 func SendToTelegramChat(n *Notify) error {
 
-	fmt.Println("Send to telega api")
+	fmt.Println("Telegram sender")
 
 	opts := telegram.Options{
 		Token: config.AppConf.Telegram.BotToken,

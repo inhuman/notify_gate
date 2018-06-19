@@ -13,6 +13,7 @@ import (
 
 func Listen() {
 	http.HandleFunc("/notify", notifyHandler)
+	http.HandleFunc("/notify", register)
 	log.Fatal(http.ListenAndServe(config.AppConf.Port, nil))
 }
 
@@ -25,6 +26,10 @@ func notifyHandler(w http.ResponseWriter, r *http.Request) {
 
 	err = senders.Send(n)
 	http_errors.CheckErrorHttp(err, w, 500)
+}
+
+func register(w http.ResponseWriter, r *http.Request) {
+
 }
 
 func ParseRequest(r *http.Request, object interface{}) error {
