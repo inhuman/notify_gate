@@ -13,25 +13,26 @@ type Storage struct {
 	DbName   string
 	User     string
 	Password string
-	db *gorm.DB
+	db       *gorm.DB
 }
 
 var Stor Storage
 
-func init() {
+func Init() {
 	Stor = Storage{
-		Host: config.AppConf.Postgre.Host,
-		Port: config.AppConf.Postgre.Port,
-		DbName: config.AppConf.Postgre.DbName,
-		User: config.AppConf.Postgre.User,
+		Host:     config.AppConf.Postgre.Host,
+		Port:     config.AppConf.Postgre.Port,
+		DbName:   config.AppConf.Postgre.DbName,
+		User:     config.AppConf.Postgre.User,
 		Password: config.AppConf.Postgre.Password,
 	}
+
 }
 
 func (s *Storage) Connect() error {
 	if s.db == nil {
 		db, err := gorm.Open("postgres",
-			fmt.Sprintf("user=%s password=%s host=%s port=%s dbname=%s",
+			fmt.Sprintf("user=%s password=%s host=%s port=%s dbname=%s sslmode=disable",
 				s.User, s.Password, s.Host, s.Port, s.DbName))
 		if err != nil {
 			return err
@@ -61,5 +62,5 @@ func (s *Storage) Close() {
 }
 
 func (s *Storage) Migrate(object interface{}) {
-	s.Db().Set("gorm:table_options", "ENGINE=InnoDB").AutoMigrate(object)
+	s.Db().AutoMigrate(object)
 }
