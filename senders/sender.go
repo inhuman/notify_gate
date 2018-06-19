@@ -7,7 +7,8 @@ import (
 type Notify struct {
 	Type    string   `json:"type"`
 	Message string   `json:"message"`
-	UIDs     []string `json:"uids"`
+	UIDs    []string `json:"uids"`
+	Token   string
 }
 
 func Send(n *Notify) error {
