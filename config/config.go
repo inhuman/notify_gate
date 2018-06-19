@@ -10,17 +10,22 @@ import (
 var AppConf = &appConfig{}
 
 type appConfig struct {
-	Mysql    *MysqlConf
-	Telegram *TelegramConf
-	Port     string
-	Debug    bool
+	Postgre     *PostgreConf
+	Telegram  *TelegramConf
+	SlackConf *SlackConf
+	Port      string
+	Debug     bool
 }
 
 type TelegramConf struct {
 	BotToken string
 }
 
-type MysqlConf struct {
+type SlackConf struct {
+	AuthToken string
+}
+
+type PostgreConf struct {
 	Host     string
 	Port     string
 	User     string
@@ -55,54 +60,61 @@ func (c *appConfig) Load(fileNames ...string) error {
 		c.Port = "80"
 	}
 
-
-	c.Mysql, err = loadMysqlConfig()
+	c.Postgre, err = loadPostgreConfig()
 	if err != nil {
 		return err
 	}
 
 	c.Telegram, err = loadTelegramConfig()
+	if err != nil {
+		return err
+	}
+
+	c.SlackConf, err = loadSlackConfig()
+	if err != nil {
+		return err
+	}
 
 	return nil
 }
 
-func loadMysqlConfig() (*MysqlConf, error) {
-	mysql := &MysqlConf{}
-	if e, ok := os.LookupEnv("MYSQL_HOST"); ok {
-		fmt.Printf("Setup mysql host: %s\n", e)
-		mysql.Host = e
+func loadPostgreConfig() (*PostgreConf, error) {
+	Postgre := &PostgreConf{}
+	if e, ok := os.LookupEnv("Postgre_HOST"); ok {
+		fmt.Printf("Setup Postgre host: %s\n", e)
+		Postgre.Host = e
 	} else {
-		return nil, errors.New("MYSQL_HOST is invalid")
+		return nil, errors.New("Postgre_HOST is invalid")
 	}
 
-	if e, ok := os.LookupEnv("MYSQL_PORT"); ok {
-		fmt.Printf("Setup mysql port: %s\n", e)
-		mysql.Port = e
+	if e, ok := os.LookupEnv("Postgre_PORT"); ok {
+		fmt.Printf("Setup Postgre port: %s\n", e)
+		Postgre.Port = e
 	} else {
-		fmt.Println("Setup default mysql port: 3306")
-		mysql.Port = "3306"
+		fmt.Println("Setup default Postgre port: 3306")
+		Postgre.Port = "3306"
 	}
 
-	if e, ok := os.LookupEnv("MYSQL_DB_NAME"); ok {
-		fmt.Printf("Setup mysql db: %s\n", e)
-		mysql.DbName = e
+	if e, ok := os.LookupEnv("Postgre_DB_NAME"); ok {
+		fmt.Printf("Setup Postgre db: %s\n", e)
+		Postgre.DbName = e
 	}
 
-	if e, ok := os.LookupEnv("MYSQL_USER"); ok {
-		fmt.Printf("Setup mysql user: %s\n", e)
-		mysql.User = e
+	if e, ok := os.LookupEnv("Postgre_USER"); ok {
+		fmt.Printf("Setup Postgre user: %s\n", e)
+		Postgre.User = e
 	} else {
-		return nil, errors.New("MYSQL_USER is invalid")
+		return nil, errors.New("Postgre_USER is invalid")
 	}
 
-	if e, ok := os.LookupEnv("MYSQL_PASSWORD"); ok {
-		fmt.Println("Setup mysql password")
-		mysql.Password = e
+	if e, ok := os.LookupEnv("Postgre_PASSWORD"); ok {
+		fmt.Println("Setup Postgre password")
+		Postgre.Password = e
 	} else {
-		return nil, errors.New("MYSQL_PASSWORD is invalid")
+		return nil, errors.New("Postgre_PASSWORD is invalid")
 	}
 
-	return mysql, nil
+	return Postgre, nil
 }
 
 func loadTelegramConfig() (*TelegramConf, error) {
@@ -116,4 +128,17 @@ func loadTelegramConfig() (*TelegramConf, error) {
 	}
 
 	return telegramConf, nil
+}
+
+func loadSlackConfig() (*SlackConf, error) {
+	slackConf := &SlackConf{}
+
+	if e, ok := os.LookupEnv("SLACK_AUTH_TOKEN"); ok {
+		fmt.Printf("Setup telegram bot token host: %s\n", e)
+		slackConf.AuthToken = e
+	} else {
+		return nil, errors.New("SLACK_AUTH_TOKEN is invalid")
+	}
+
+	return slackConf, nil
 }
