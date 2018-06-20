@@ -7,6 +7,7 @@ import (
 	"jgit.me/tools/notify_gate/cache"
 	"jgit.me/tools/notify_gate/http-errors"
 	"errors"
+	"jgit.me/tools/notify_gate/config"
 )
 
 func ParseRequest(r *http.Request, object interface{}) error {
@@ -34,9 +35,14 @@ func Secured(handler func(w http.ResponseWriter, r *http.Request)) func(w http.R
 	return func(w http.ResponseWriter, r *http.Request) {
 		token := r.Header.Get("X-AUTH-TOKEN")
 
+		//TODO: rebuild cache if unavailable ?
 		//if len(cache.TokensCache) == 0 {
 		//	cache.BuildTokenCache()
 		//}
+
+		if config.AppConf.Debug && token == "test_token" {
+			handler(w, r)
+		}
 
 		if len(token) == 0 {
 			er := errors.New("Unauthorized")

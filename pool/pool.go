@@ -3,22 +3,22 @@ package pool
 import (
 	"jgit.me/tools/notify_gate/senders"
 	"jgit.me/tools/notify_gate/utils"
-	"time"
+	"jgit.me/tools/notify_gate/notify"
 )
 
 var NPool = &NotifyPool{}
 
 func init() {
-	NPool.ToSend = make(chan *senders.Notify, 1000)
+	NPool.ToSend = make(chan *notify.Notify, 1000)
 	NPool.Done = make(chan bool)
 }
 
 type NotifyPool struct {
-	ToSend chan *senders.Notify
+	ToSend chan *notify.Notify
 	Done   chan bool
 }
 
-func (np *NotifyPool) Add(n *senders.Notify) error {
+func (np *NotifyPool) Add(n *notify.Notify) error {
 	np.ToSend <- n
 
 	// TODO: test write to closed channel
@@ -50,6 +50,6 @@ func Run() {
 			return
 		}
 
-		<- time.After(500 * time.Microsecond)
+		//<- time.After(time.Second)
 	}
 }

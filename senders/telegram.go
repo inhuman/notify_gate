@@ -4,14 +4,15 @@ import (
 	"github.com/appscode/go-notify/telegram"
 	"jgit.me/tools/notify_gate/config"
 	"fmt"
+	"jgit.me/tools/notify_gate/notify"
 )
 
-func SendToTelegramChat(n *Notify) error {
+func SendToTelegramChat(n *notify.Notify) error {
 
 	fmt.Println("Telegram sender")
 
 	opts := telegram.Options{
-		Token: config.AppConf.Telegram.BotToken,
+		Token:   config.AppConf.Telegram.BotToken,
 		Channel: n.UIDs,
 	}
 
@@ -24,5 +25,3 @@ func SendToTelegramChat(n *Notify) error {
 
 	return nil
 }
-
-

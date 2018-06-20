@@ -4,9 +4,10 @@ import (
 	"github.com/appscode/go-notify/slack"
 	"jgit.me/tools/notify_gate/config"
 	"jgit.me/tools/notify_gate/utils"
+	"jgit.me/tools/notify_gate/notify"
 )
 
-func SendToSlackChat(n *Notify) error {
+func SendToSlackChat(n *notify.Notify) error {
 
 	utils.ShowDebugMessage("Slack sender")
 
