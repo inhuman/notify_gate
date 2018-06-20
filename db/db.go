@@ -26,7 +26,6 @@ func Init() {
 		User:     config.AppConf.Postgre.User,
 		Password: config.AppConf.Postgre.Password,
 	}
-
 }
 
 func (s *Storage) Connect() error {

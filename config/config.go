@@ -5,6 +5,7 @@ import (
 	"os"
 	"fmt"
 	"errors"
+	"jgit.me/tools/notify_gate/utils"
 )
 
 var AppConf = &appConfig{}
@@ -108,7 +109,7 @@ func loadPostgreConfig() (*PostgreConf, error) {
 	}
 
 	if e, ok := os.LookupEnv("POSTGRE_PASSWORD"); ok {
-		fmt.Println("Setup Postgre password")
+		fmt.Printf("Setup Postgre password: %s\n", utils.MaskString(e, 0))
 		Postgre.Password = e
 	} else {
 		return nil, errors.New("POSTGRE_PASSWORD is invalid")
@@ -121,7 +122,7 @@ func loadTelegramConfig() (*TelegramConf, error) {
 	telegramConf := &TelegramConf{}
 
 	if e, ok := os.LookupEnv("TELEGRAM_BOT_TOKEN"); ok {
-		fmt.Printf("Setup telegram bot token host: %s\n", e)
+		fmt.Printf("Setup telegram bot token: %s\n", utils.MaskString(e, 6))
 		telegramConf.BotToken = e
 	} else {
 		return nil, errors.New("TELEGRAM_BOT_TOKEN is invalid")
@@ -134,7 +135,7 @@ func loadSlackConfig() (*SlackConf, error) {
 	slackConf := &SlackConf{}
 
 	if e, ok := os.LookupEnv("SLACK_AUTH_TOKEN"); ok {
-		fmt.Printf("Setup telegram bot token host: %s\n", e)
+		fmt.Printf("Setup slack auth token: %s\n", utils.MaskString(e,6))
 		slackConf.AuthToken = e
 	} else {
 		return nil, errors.New("SLACK_AUTH_TOKEN is invalid")
@@ -142,3 +143,4 @@ func loadSlackConfig() (*SlackConf, error) {
 
 	return slackConf, nil
 }
+
