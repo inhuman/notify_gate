@@ -1,9 +1,9 @@
 package pool
 
 import (
-	"jgit.me/tools/notify_gate/senders"
 	"jgit.me/tools/notify_gate/utils"
 	"jgit.me/tools/notify_gate/notify"
+	"time"
 )
 
 var NPool = &NotifyPool{}
@@ -41,15 +41,17 @@ func Run() {
 		select {
 		case n, ok := <-NPool.ToSend:
 			if ok {
-				go senders.Send(n)
+				//senders.Send(n)
 			} else {
 				utils.ShowDebugMessage("Can not read from notify channel")
 			}
+
+			n.Save()
 
 		case <-NPool.Done:
 			return
 		}
 
-		//<- time.After(time.Second)
+		<- time.After(time.Second)
 	}
 }
