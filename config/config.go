@@ -5,13 +5,13 @@ import (
 	"os"
 	"fmt"
 	"errors"
-	"jgit.me/tools/notify_gate/utils"
+	"strings"
 )
 
 var AppConf = &appConfig{}
 
 type appConfig struct {
-	Postgre     *PostgreConf
+	Postgre   *PostgreConf
 	Telegram  *TelegramConf
 	SlackConf *SlackConf
 	Port      string
@@ -45,20 +45,20 @@ func (c *appConfig) Load(fileNames ...string) error {
 		return nil
 	}
 
-	if e, ok := os.LookupEnv("ALERTER_DEBUG"); ok {
-		fmt.Printf("Alerter debug mode: %s\n", e)
+	if e, ok := os.LookupEnv("NG_DEBUG"); ok {
+		fmt.Printf("Notify gate debug mode: %s\n", e)
 		c.Debug = e == "true"
 	} else {
-		fmt.Println("Alerter debug mode (default): false")
+		fmt.Println("Notify gate debug mode (default): false")
 		c.Debug = false
 	}
 
-	if e, ok := os.LookupEnv("NOTIFY_GATE_PORT"); ok {
+	if e, ok := os.LookupEnv("NG_PORT"); ok {
 		fmt.Printf("Notify gate port: %s\n", e)
 		c.Port = ":" + e
 	} else {
 		fmt.Println("Notify gate port (default): 80")
-		c.Port = "80"
+		c.Port = ":80"
 	}
 
 	c.Postgre, err = loadPostgreConfig()
@@ -109,7 +109,7 @@ func loadPostgreConfig() (*PostgreConf, error) {
 	}
 
 	if e, ok := os.LookupEnv("POSTGRE_PASSWORD"); ok {
-		fmt.Printf("Setup Postgre password: %s\n", utils.MaskString(e, 0))
+		fmt.Printf("Setup Postgre password: %s\n", maskString(e, 0))
 		Postgre.Password = e
 	} else {
 		return nil, errors.New("POSTGRE_PASSWORD is invalid")
@@ -122,7 +122,7 @@ func loadTelegramConfig() (*TelegramConf, error) {
 	telegramConf := &TelegramConf{}
 
 	if e, ok := os.LookupEnv("TELEGRAM_BOT_TOKEN"); ok {
-		fmt.Printf("Setup telegram bot token: %s\n", utils.MaskString(e, 6))
+		fmt.Printf("Setup telegram bot token: %s\n", maskString(e, 6))
 		telegramConf.BotToken = e
 	} else {
 		return nil, errors.New("TELEGRAM_BOT_TOKEN is invalid")
@@ -135,7 +135,7 @@ func loadSlackConfig() (*SlackConf, error) {
 	slackConf := &SlackConf{}
 
 	if e, ok := os.LookupEnv("SLACK_AUTH_TOKEN"); ok {
-		fmt.Printf("Setup slack auth token: %s\n", utils.MaskString(e,6))
+		fmt.Printf("Setup slack auth token: %s\n", maskString(e, 6))
 		slackConf.AuthToken = e
 	} else {
 		return nil, errors.New("SLACK_AUTH_TOKEN is invalid")
@@ -144,3 +144,9 @@ func loadSlackConfig() (*SlackConf, error) {
 	return slackConf, nil
 }
 
+func maskString(s string, showLastSymbols int) string {
+	if len(s) <= showLastSymbols {
+		return s
+	}
+	return strings.Repeat("*", len(s)-showLastSymbols) + s[len(s)-showLastSymbols:]
+}

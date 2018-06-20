@@ -1,9 +1,8 @@
 package utils
 
 import (
-	"jgit.me/tools/alerter/config"
+	"jgit.me/tools/notify_gate/config"
 	"fmt"
-	"strings"
 )
 
 func ShowDebugMessage(i interface{}) {
@@ -12,9 +11,3 @@ func ShowDebugMessage(i interface{}) {
 	}
 }
 
-func MaskString(s string, showLastSymbols int) string {
-	if len(s) <= showLastSymbols {
-		return s
-	}
-	return strings.Repeat("*", len(s)-showLastSymbols) + s[len(s)-showLastSymbols:]
-}

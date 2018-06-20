@@ -6,22 +6,16 @@ import (
 	"fmt"
 	"jgit.me/tools/notify_gate/http-errors"
 	"jgit.me/tools/notify_gate/config"
-	"jgit.me/tools/notify_gate/senders"
 	"jgit.me/tools/notify_gate/service"
-	"jgit.me/tools/notify_gate/db"
 	"jgit.me/tools/notify_gate/cache"
 	"html/template"
 	"jgit.me/tools/notify_gate/http-helpers"
 	"jgit.me/tools/notify_gate/pool"
+	"jgit.me/tools/notify_gate/notify"
+	"io/ioutil"
 )
 
 func Listen() {
-
-	db.Init()
-	usr := service.Service{}
-	db.Stor.Migrate(usr)
-
-	cache.BuildTokenCache()
 
 	http.HandleFunc("/notify", http_helpers.Secured(notifyHandler))
 	http.HandleFunc("/register", register)
@@ -43,11 +37,15 @@ func mainPage(w http.ResponseWriter, r *http.Request) {
 }
 
 func notifyHandler(w http.ResponseWriter, r *http.Request) {
-	n := &senders.Notify{}
+
+	bodyBytes, _ := ioutil.ReadAll(r.Body)
+	fmt.Printf("from handler: %s\n", bodyBytes)
+
+	n := &notify.Notify{}
 	err := http_helpers.ParseRequest(r, n)
 	http_errors.CheckErrorHttp(err, w, 500)
 
-	fmt.Printf("%+v\n", n)
+	//fmt.Printf("%+v\n", n)
 
 	err = pool.NPool.Add(n)
 
