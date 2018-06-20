@@ -3,22 +3,21 @@ package senders
 import (
 	"github.com/appscode/go-notify/telegram"
 	"jgit.me/tools/notify_gate/config"
-	"fmt"
 	"jgit.me/tools/notify_gate/notify"
+	"jgit.me/tools/notify_gate/utils"
 )
+
+var TelegramClient = telegram.New(telegram.Options{Token: config.AppConf.Telegram.BotToken})
 
 func SendToTelegramChat(n *notify.Notify) error {
 
-	fmt.Println("Telegram sender")
+	utils.ShowDebugMessage("Telegram sender")
 
-	opts := telegram.Options{
-		Token:   config.AppConf.Telegram.BotToken,
-		Channel: n.UIDs,
-	}
+	err := TelegramClient.
+		To("", n.UIDs...).
+		WithBody(n.Message).
+		Send()
 
-	cl := telegram.New(opts)
-
-	err := cl.WithBody(n.Message).Send()
 	if err != nil {
 		return err
 	}

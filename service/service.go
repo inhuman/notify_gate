@@ -17,7 +17,7 @@ func Register(srv *Service) (*Service, error) {
 
 	srv.Token = srv.GenerateToken()
 
-	db.Stor.Db()
+
 	tx := db.Stor.Db().Begin()
 	if err := tx.Create(&srv).Error; err != nil {
 		tx.Rollback()

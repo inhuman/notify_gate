@@ -6,13 +6,15 @@ import (
 	"jgit.me/tools/notify_gate/db"
 	"jgit.me/tools/notify_gate/service"
 	"jgit.me/tools/notify_gate/cache"
+	"jgit.me/tools/notify_gate/notify"
 )
 
 func main() {
 
 	db.Init()
-	usr := service.Service{}
-	db.Stor.Migrate(usr)
+
+	db.Stor.Migrate(service.Service{})
+	db.Stor.Migrate(notify.Notify{})
 
 	cache.BuildTokenCache()
 
@@ -24,8 +26,6 @@ func main() {
 //TODO: benchmark write notify to db
 //TODO: benchmark read notify to db
 
-//TODO: find out how often possible send  notify to telegram - 1 per second
-//TODO: find out how often possible send  notify to slack
 
 //TODO: implement tests for api
 //TODO: implement tests for tokens cache
