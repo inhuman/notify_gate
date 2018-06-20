@@ -2,7 +2,7 @@ package cache
 
 import (
 	"jgit.me/tools/notify_gate/utils"
-	"jgit.me/tools/notify_gate/user"
+	"jgit.me/tools/notify_gate/service"
 	"fmt"
 )
 
@@ -13,7 +13,7 @@ var TokensCache = make(Tokens)
 func BuildTokenCache() {
 	utils.ShowDebugMessage("Building tokens cache")
 
-	users, err := user.GetAll()
+	users, err := service.GetAll()
 	if err!= nil {
 		fmt.Println("Build tokens cache error: " + err.Error())
 	}

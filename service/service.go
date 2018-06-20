@@ -1,4 +1,4 @@
-package user
+package service
 
 import (
 	"jgit.me/tools/notify_gate/db"
