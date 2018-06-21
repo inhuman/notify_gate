@@ -4,6 +4,7 @@ import (
 	"github.com/jinzhu/gorm"
 	"github.com/lib/pq"
 	"jgit.me/tools/notify_gate/db"
+	"fmt"
 )
 
 type Notify struct {
@@ -28,5 +29,14 @@ func (n *Notify) Delete() {
 func GetNotify() *Notify {
 	ns := &Notify{}
 	db.Stor.Db().First(ns)
+
+	defer func() {
+		if r := recover(); r != nil {
+
+			fmt.Println("PANIC Deferred")
+			//
+		}
+	}()
+
 	return ns
 }
