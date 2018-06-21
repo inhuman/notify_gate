@@ -38,4 +38,3 @@ func main() {
 //TODO: implement tests for slack
 //TODO: implement tests for register service
 
-//TODO: implement reconnect to db if its disconnect

@@ -13,12 +13,12 @@ var TokensCache = make(Tokens)
 func BuildTokenCache() {
 	utils.ShowDebugMessage("Building tokens cache")
 
-	users, err := service.GetAll()
+	srvs, err := service.GetAll()
 	if err!= nil {
 		fmt.Println("Build tokens cache error: " + err.Error())
 	}
 
-	for _, usr := range users {
+	for _, usr := range srvs {
 		TokensCache[usr.Token] = usr.Name
 	}
 }
