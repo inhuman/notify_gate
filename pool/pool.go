@@ -69,7 +69,6 @@ func Saver(wpool *workerpool.Pool) {
 }
 
 func Sender() {
-
 L:
 	for {
 		select {

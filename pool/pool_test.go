@@ -48,6 +48,7 @@ func TestNotifyPool_Add(t *testing.T) {
 	}
 
 	db.Init()
+	db.Stor.Db()
 	db.Stor.Migrate(notify.Notify{})
 
 
@@ -63,7 +64,7 @@ func TestNotifyPool_Add(t *testing.T) {
 		return nil
 	}
 
-	for i := 0; i < 10; i++ {
+	for i := 0; i < 100; i++ {
 		n := &notify.Notify{
 			Type:    "test",
 			Message: "test message " + strconv.Itoa(i),
@@ -75,10 +76,7 @@ func TestNotifyPool_Add(t *testing.T) {
 	for {
 		n := notify.GetNotify()
 		if n.ID == 0 {
-			fmt.Println("Sending true to done")
 			NPool.Done <- true
-
-			fmt.Println("Sent true to done")
 			break
 		}
 		<- time.After(1 * time.Second)

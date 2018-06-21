@@ -5,6 +5,7 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 	"fmt"
 	"jgit.me/tools/notify_gate/config"
+	"time"
 )
 
 type Storage struct {
@@ -49,10 +50,15 @@ func (s *Storage) Connect() error {
 
 func (s *Storage) Db() *gorm.DB {
 	err := s.Connect()
+
 	if err != nil {
-		panic(err)
+		fmt.Println("Lost db connection. Reconnecting..")
 	}
 
+	if s.db == nil {
+		<- time.After(2 * time.Second)
+		return s.Db()
+	}
 
 	return s.db
 }
