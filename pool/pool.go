@@ -5,9 +5,9 @@ import (
 	"jgit.me/tools/notify_gate/notify"
 	"jgit.me/tools/notify_gate/workerpool"
 	"time"
+	"fmt"
 	"jgit.me/tools/notify_gate/senders"
 	"jgit.me/tools/notify_gate/db"
-	"fmt"
 )
 
 var NPool = &NotifyPool{}
@@ -69,15 +69,22 @@ func Saver(wpool *workerpool.Pool) {
 }
 
 func Sender() {
+
+L:
 	for {
-
-		n := notify.GetNotify()
-
-		if n.ID != 0 {
-			senders.Send(n)
-			db.Stor.Db().Unscoped().Delete(n)
+		select {
+		case <-NPool.Done:
+			fmt.Println("Received true from done, breaking the loop")
+			break L
+		default:
+			n := notify.GetNotify()
+			if n.ID != 0 {
+				senders.Send(n)
+				db.Stor.Db().Unscoped().Delete(n)
+			}
 		}
 
 		<-time.After(1000 * time.Millisecond)
 	}
+	return
 }

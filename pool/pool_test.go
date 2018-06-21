@@ -70,12 +70,17 @@ func TestNotifyPool_Add(t *testing.T) {
 		}
 		NPool.AddToSave(n)
 	}
+	<- time.After(1 * time.Second)
 
 	for {
 		n := notify.GetNotify()
 		if n.ID == 0 {
-			<- time.After(1 * time.Second)
+			fmt.Println("Sending true to done")
 			NPool.Done <- true
+
+			fmt.Println("Sent true to done")
+			break
 		}
+		<- time.After(1 * time.Second)
 	}
 }
