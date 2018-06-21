@@ -40,8 +40,9 @@ func Secured(handler func(w http.ResponseWriter, r *http.Request)) func(w http.R
 		//	cache.BuildTokenCache()
 		//}
 
-		if config.AppConf.Debug && token == "test_token" {
+		if config.AppConf.Debug && (token == "test_token") {
 			handler(w, r)
+			return
 		}
 
 		if len(token) == 0 {

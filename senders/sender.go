@@ -9,6 +9,9 @@ import (
 var Providers = make(map[string]func(n *notify.Notify) error)
 
 func init() {
+
+	InitTelegramClient()
+
 	utils.ShowDebugMessage("Init send providers")
 	Providers["TelegramChannel"] = SendToTelegramChat
 	Providers["SlackChannel"] = SendToSlackChat
