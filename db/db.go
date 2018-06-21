@@ -70,3 +70,7 @@ func (s *Storage) Close() {
 func (s *Storage) Migrate(object interface{}) {
 	s.Db().AutoMigrate(object)
 }
+
+func (s *Storage) SetDb(db *gorm.DB) {
+	s.db = db
+}
