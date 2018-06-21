@@ -28,17 +28,6 @@ type NotifyPool struct {
 
 func (np *NotifyPool) AddToSave(n *notify.Notify) error {
 	np.ToSave <- n
-
-	// TODO: test write to closed channel
-	//defer func() error {
-	//	if r := recover(); r != nil {
-	//		if err, ok := r.(error); ok {
-	//			return err
-	//		}
-	//	}
-	//	return nil
-	//}()
-	//
 	return nil
 }
 
@@ -48,18 +37,16 @@ func (np *NotifyPool) AddToSend(n *notify.Notify) error {
 }
 
 func Saver(wpool *workerpool.Pool) {
-	utils.ShowDebugMessage("Starting notify pool saver")
+	utils.ShowDebugMessage("Starting notify saver")
 
 	for {
 		select {
 		case n, ok := <-NPool.ToSave:
 			if ok {
-				fmt.Println("Saver.ToSave", n)
 				wpool.Exec(n)
 			} else {
-				utils.ShowDebugMessage("Can not read from notify channel")
+				fmt.Println("Can not read from notify channel")
 			}
-
 		case <-NPool.Done:
 			wpool.Close()
 			wpool.Wait()
@@ -73,7 +60,6 @@ L:
 	for {
 		select {
 		case <-NPool.Done:
-			fmt.Println("Received true from done, breaking the loop")
 			break L
 		default:
 			n := notify.GetNotify()
@@ -82,7 +68,6 @@ L:
 				db.Stor.Db().Unscoped().Delete(n)
 			}
 		}
-
 		<-time.After(1000 * time.Millisecond)
 	}
 	return
