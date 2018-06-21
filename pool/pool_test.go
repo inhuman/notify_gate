@@ -22,7 +22,7 @@ func BenchmarkNotifyPool_Add(b *testing.B) {
 	//
 	//db.Init()
 	//
-	//go Run()
+	//go Saver()
 	//
 	//senders.Providers["test"] = func(n *notify.Notify) error {
 	//	time.Sleep(1000 * time.Millisecond)
@@ -53,10 +53,9 @@ func TestNotifyPool_Add(t *testing.T) {
 
 	wpool := workerpool.NewPool(5)
 
-	go Run(wpool)
-	go Send()
-	go Read()
-	go Delete()
+	go Saver(wpool)
+	go Sender()
+
 
 	senders.Providers["test"] = func(n *notify.Notify) error {
 		time.Sleep(500 * time.Millisecond)
@@ -64,7 +63,7 @@ func TestNotifyPool_Add(t *testing.T) {
 		return nil
 	}
 
-	for i := 0; i < 100000; i++ {
+	for i := 0; i < 10; i++ {
 		n := &notify.Notify{
 			Type:    "test",
 			Message: "test message " + strconv.Itoa(i),
@@ -72,9 +71,11 @@ func TestNotifyPool_Add(t *testing.T) {
 		NPool.AddToSave(n)
 	}
 
-	time.Sleep(1000 * time.Second)
-
-	NPool.Done <- true
-
-
+	for {
+		n := notify.GetNotify()
+		if n.ID == 0 {
+			<- time.After(1 * time.Second)
+			NPool.Done <- true
+		}
+	}
 }

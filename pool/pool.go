@@ -6,6 +6,8 @@ import (
 	"jgit.me/tools/notify_gate/workerpool"
 	"time"
 	"jgit.me/tools/notify_gate/senders"
+	"jgit.me/tools/notify_gate/db"
+	"fmt"
 )
 
 var NPool = &NotifyPool{}
@@ -41,17 +43,18 @@ func (np *NotifyPool) AddToSave(n *notify.Notify) error {
 }
 
 func (np *NotifyPool) AddToSend(n *notify.Notify) error {
-	np.ToSave <- n
+	np.ToSend <- n
 	return nil
 }
 
-func Run(wpool *workerpool.Pool) {
+func Saver(wpool *workerpool.Pool) {
 	utils.ShowDebugMessage("Starting notify pool saver")
 
 	for {
 		select {
 		case n, ok := <-NPool.ToSave:
 			if ok {
+				fmt.Println("Saver.ToSave", n)
 				wpool.Exec(n)
 			} else {
 				utils.ShowDebugMessage("Can not read from notify channel")
@@ -65,44 +68,16 @@ func Run(wpool *workerpool.Pool) {
 	}
 }
 
-func Send() {
-	utils.ShowDebugMessage("Starting notify pool sender")
-
+func Sender() {
 	for {
-		select {
-		case n, ok := <-NPool.ToSend:
-			if ok {
-				senders.Send(n)
-				NPool.ToDelete <- n
-			} else {
-				utils.ShowDebugMessage("Can not read from notify channel")
-			}
 
-		case <-NPool.Done:
-			return
-		}
-		<-time.After(500 * time.Millisecond)
-	}
-}
+		n := notify.GetNotify()
 
-func Read() {
-	for {
-		for _, n := range notify.GetNotifies() {
-			NPool.ToSend <- n
+		if n.ID != 0 {
+			senders.Send(n)
+			db.Stor.Db().Unscoped().Delete(n)
 		}
-		<-time.After(500 * time.Millisecond)
-	}
-}
 
-func Delete()  {
-	for {
-		select {
-			case n, ok := <-NPool.ToDelete:
-				if ok {
-					n.Delete()
-				} else {
-					utils.ShowDebugMessage("Can not read from notify channel")
-				}
-		}
+		<-time.After(1000 * time.Millisecond)
 	}
 }

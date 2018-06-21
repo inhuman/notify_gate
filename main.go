@@ -20,11 +20,9 @@ func main() {
 	cache.BuildTokenCache()
 
 	wpool := workerpool.NewPool(5)
-	go pool.Run(wpool)
-	go pool.Send()
-	go pool.Read()
-	go pool.Delete()
 
+	go pool.Saver(wpool)
+	go pool.Sender()
 	api.Listen()
 
 	wpool.Close()

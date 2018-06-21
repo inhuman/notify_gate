@@ -25,10 +25,8 @@ func (n *Notify) Delete() {
 	db.Stor.Db().Delete(n)
 }
 
-func GetNotifies() []*Notify {
-
-	ns := []*Notify{}
-
-	db.Stor.Db().Find(&ns)
+func GetNotify() *Notify {
+	ns := &Notify{}
+	db.Stor.Db().First(ns)
 	return ns
 }
