@@ -28,7 +28,6 @@ func Register(srv *Service) (*Service, error) {
 }
 
 func GetAll() ([]Service, error) {
-
 	srvs := []Service{}
 	db.Stor.Db().Find(&srvs)
 	return srvs, nil
