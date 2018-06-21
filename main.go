@@ -31,7 +31,6 @@ func main() {
 
 
 //TODO: implement tests for api
-//TODO: implement tests for tokens cache
 //TODO: implement tests for config load
 //TODO: implement tests for notify pool
 //TODO: implement tests for telegram
