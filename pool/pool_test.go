@@ -3,25 +3,78 @@ package pool
 import (
 	"testing"
 	"jgit.me/tools/notify_gate/notify"
-	"jgit.me/tools/notify_gate/senders"
+	"jgit.me/tools/notify_gate/db"
+	"jgit.me/tools/notify_gate/config"
+	"jgit.me/tools/notify_gate/workerpool"
 	"time"
+	"jgit.me/tools/notify_gate/senders"
+	"fmt"
+	"strconv"
 )
 
 func BenchmarkNotifyPool_Add(b *testing.B) {
 
-	go Run()
+	//err := config.AppConf.Load()
+	//
+	//if err != nil {
+	//	b.Log(err)
+	//}
+	//
+	//db.Init()
+	//
+	//go Run()
+	//
+	//senders.Providers["test"] = func(n *notify.Notify) error {
+	//	time.Sleep(1000 * time.Millisecond)
+	//	return nil
+	//}
+	//
+	//n := &notify.Notify{
+	//	Type:    "test",
+	//	Message: "test message",
+	//}
+	//
+	//for i := 0; i < 100000; i++ {
+	//	NPool.AddToSave(n)
+	//}
+}
+
+func TestNotifyPool_Add(t *testing.T) {
+
+	err := config.AppConf.Load()
+
+	if err != nil {
+		t.Log(err)
+	}
+
+	db.Init()
+	db.Stor.Migrate(notify.Notify{})
+
+
+	wpool := workerpool.NewPool(5)
+
+	go Run(wpool)
+	go Send()
+	go Read()
+	go Delete()
 
 	senders.Providers["test"] = func(n *notify.Notify) error {
-		time.Sleep(1000 * time.Millisecond)
+		time.Sleep(500 * time.Millisecond)
+		fmt.Println("sent message " + n.Message)
 		return nil
 	}
 
-	n := &notify.Notify{
-		Type:    "test",
-		Message: "test message",
+	for i := 0; i < 100000; i++ {
+		n := &notify.Notify{
+			Type:    "test",
+			Message: "test message " + strconv.Itoa(i),
+		}
+		NPool.AddToSave(n)
 	}
 
-	for i := 0; i < b.N; i++ {
-		NPool.Add(n)
-	}
+	time.Sleep(1000 * time.Second)
+
+	NPool.Done <- true
+
+
 }

@@ -3,7 +3,6 @@ package api
 import (
 	"net/http"
 	"log"
-	"fmt"
 	"jgit.me/tools/notify_gate/http-errors"
 	"jgit.me/tools/notify_gate/config"
 	"jgit.me/tools/notify_gate/service"
@@ -37,13 +36,11 @@ func mainPage(w http.ResponseWriter, r *http.Request) {
 
 func notifyHandler(w http.ResponseWriter, r *http.Request) {
 	n := &notify.Notify{}
+
 	err := http_helpers.ParseRequest(r, n)
 	http_errors.CheckErrorHttp(err, w, 500)
 
-	fmt.Printf("%+v\n", n)
-
-	err = pool.NPool.Add(n)
-
+	err = pool.NPool.AddToSave(n)
 	http_errors.CheckErrorHttp(err, w, 500)
 }
 

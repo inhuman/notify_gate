@@ -16,3 +16,19 @@ type Notify struct {
 func (n *Notify) Save() {
 	db.Stor.Db().Save(n)
 }
+
+func (n *Notify) Execute() {
+	n.Save()
+}
+
+func (n *Notify) Delete() {
+	db.Stor.Db().Delete(n)
+}
+
+func GetNotifies() []*Notify {
+
+	ns := []*Notify{}
+
+	db.Stor.Db().Find(&ns)
+	return ns
+}

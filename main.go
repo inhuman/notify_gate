@@ -7,6 +7,7 @@ import (
 	"jgit.me/tools/notify_gate/service"
 	"jgit.me/tools/notify_gate/cache"
 	"jgit.me/tools/notify_gate/notify"
+	"jgit.me/tools/notify_gate/workerpool"
 )
 
 func main() {
@@ -18,13 +19,17 @@ func main() {
 
 	cache.BuildTokenCache()
 
-	go pool.Run()
-	api.Listen()
-}
+	wpool := workerpool.NewPool(5)
+	go pool.Run(wpool)
+	go pool.Send()
+	go pool.Read()
+	go pool.Delete()
 
-//TODO: benchmark send notify through api
-//TODO: benchmark write notify to db
-//TODO: benchmark read notify to db
+	api.Listen()
+
+	wpool.Close()
+	wpool.Wait()
+}
 
 
 //TODO: implement tests for api
@@ -34,3 +39,5 @@ func main() {
 //TODO: implement tests for telegram
 //TODO: implement tests for slack
 //TODO: implement tests for register service
+
+//TODO: implement reconnect to db if its disconnect

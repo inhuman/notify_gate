@@ -5,9 +5,16 @@ import (
 	"jgit.me/tools/notify_gate/config"
 	"jgit.me/tools/notify_gate/notify"
 	"jgit.me/tools/notify_gate/utils"
+	go_notify "github.com/appscode/go-notify"
 )
 
-var TelegramClient = telegram.New(telegram.Options{Token: config.AppConf.Telegram.BotToken})
+var TelegramClient go_notify.ByChat
+
+func InitTelegramClient() {
+	TelegramClient = telegram.New(telegram.Options{
+		Token: config.AppConf.Telegram.BotToken,
+	})
+}
 
 func SendToTelegramChat(n *notify.Notify) error {
 
