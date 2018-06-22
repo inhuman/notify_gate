@@ -8,7 +8,7 @@ import (
 
 var Providers = make(map[string]func(n *notify.Notify) error)
 
-func init() {
+func Init() {
 
 	InitTelegramClient()
 
