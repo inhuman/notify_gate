@@ -8,14 +8,17 @@ import (
 	"jgit.me/tools/notify_gate/cache"
 	"jgit.me/tools/notify_gate/notify"
 	"jgit.me/tools/notify_gate/workerpool"
+	"jgit.me/tools/notify_gate/senders"
 )
 
 func main() {
+
 
 	db.Init()
 	db.Stor.Db()
 	db.Stor.Migrate(service.Service{})
 	db.Stor.Migrate(notify.Notify{})
+	senders.Init()
 
 	cache.BuildTokenCache()
 
