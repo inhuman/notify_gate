@@ -1,0 +1,16 @@
+version: '2'
+services:
+  notify-gate:
+    environment:
+      - TZ=Europe/Moscow
+    image: docker-local.jgit.me/tools-notify-gate:master
+    ports:
+     - 8080:80
+  postgres:
+    image: postgres
+    environment:
+      - POSTGRES_PASSWORD=123
+      - POSTGRES_USER=root
+      - POSTGRES_DB=notify
+    ports:
+      - 5432:5432

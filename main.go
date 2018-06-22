@@ -13,7 +13,6 @@ import (
 
 func main() {
 
-
 	db.Init()
 	db.Stor.Db()
 	db.Stor.Migrate(service.Service{})
@@ -21,7 +20,6 @@ func main() {
 	senders.Init()
 
 	cache.BuildTokenCache()
-
 	wpool := workerpool.NewPool(5)
 
 	go pool.Saver(wpool)
@@ -31,12 +29,3 @@ func main() {
 	wpool.Close()
 	wpool.Wait()
 }
-
-
-//TODO: implement tests for api
-//TODO: implement tests for config load
-//TODO: implement tests for notify pool
-//TODO: implement tests for telegram
-//TODO: implement tests for slack
-//TODO: implement tests for register service
-
