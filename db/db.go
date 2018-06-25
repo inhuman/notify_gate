@@ -30,6 +30,7 @@ func Init() {
 		Password: config.AppConf.Postgres.Password,
 	}
 
+	//TODO: remove
 	fmt.Printf("%+v\n", Stor)
 
 	Stor.Db()

@@ -88,7 +88,7 @@ func loadPostgreConfig() (*PostgreConf, error) {
 		Postgre.Port = "5432"
 	}
 
-	if e, ok := os.LookupEnv("POSTGRES_DB_NAME"); ok {
+	if e, ok := os.LookupEnv("POSTGRES_DB"); ok {
 		fmt.Printf("Setup Postgres db: %s\n", e)
 		Postgre.DbName = e
 	}
