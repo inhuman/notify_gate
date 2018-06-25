@@ -3,6 +3,12 @@ services:
   notify-gate:
     environment:
       - TZ=Europe/Moscow
+      - POSTGRES_PASSWORD=123
+      - POSTGRES_USER=root
+      - POSTGRES_DB=notify
+      - POSTGRES_HOST=127.0.0.1
+      - NG_DEBUG=true
+      - NG_PORT=8080
     image: docker-local.jgit.me/tools-notify-gate:master
     ports:
      - 8080:80

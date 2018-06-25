@@ -78,14 +78,14 @@ func (c *appConfig) Load(fileNames ...string) error {
 
 func loadPostgreConfig() (*PostgreConf, error) {
 	Postgre := &PostgreConf{}
-	if e, ok := os.LookupEnv("POSTGRE_HOST"); ok {
+	if e, ok := os.LookupEnv("POSTGRES_HOST"); ok {
 		fmt.Printf("Setup Postgre host: %s\n", e)
 		Postgre.Host = e
 	} else {
-		return nil, errors.New("POSTGRE_HOST is invalid")
+		return nil, errors.New("POSTGRES_HOST is invalid")
 	}
 
-	if e, ok := os.LookupEnv("POSTGRE_PORT"); ok {
+	if e, ok := os.LookupEnv("POSTGRES_PORT"); ok {
 		fmt.Printf("Setup Postgre port: %s\n", e)
 		Postgre.Port = e
 	} else {
@@ -93,23 +93,23 @@ func loadPostgreConfig() (*PostgreConf, error) {
 		Postgre.Port = "3306"
 	}
 
-	if e, ok := os.LookupEnv("POSTGRE_DB_NAME"); ok {
+	if e, ok := os.LookupEnv("POSTGRES_DB_NAME"); ok {
 		fmt.Printf("Setup Postgre db: %s\n", e)
 		Postgre.DbName = e
 	}
 
-	if e, ok := os.LookupEnv("POSTGRE_USER"); ok {
+	if e, ok := os.LookupEnv("POSTGRES_USER"); ok {
 		fmt.Printf("Setup Postgre user: %s\n", e)
 		Postgre.User = e
 	} else {
-		return nil, errors.New("POSTGRE_USER is invalid")
+		return nil, errors.New("POSTGRES_USER is invalid")
 	}
 
-	if e, ok := os.LookupEnv("POSTGRE_PASSWORD"); ok {
+	if e, ok := os.LookupEnv("POSTGRES_PASSWORD"); ok {
 		fmt.Printf("Setup Postgre password: %s\n", maskString(e, 0))
 		Postgre.Password = e
 	} else {
-		return nil, errors.New("POSTGRE_PASSWORD is invalid")
+		return nil, errors.New("POSTGRES_PASSWORD is invalid")
 	}
 
 	return Postgre, nil
