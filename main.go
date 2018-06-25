@@ -9,9 +9,12 @@ import (
 	"jgit.me/tools/notify_gate/notify"
 	"jgit.me/tools/notify_gate/workerpool"
 	"jgit.me/tools/notify_gate/senders"
+	"jgit.me/tools/notify_gate/config"
 )
 
 func main() {
+
+	config.AppConf.Load()
 
 	db.Init()
 	db.Stor.Db()
