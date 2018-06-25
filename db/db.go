@@ -20,6 +20,8 @@ type Storage struct {
 var Stor Storage
 
 func Init() {
+	fmt.Println("Inializing db")
+
 	Stor = Storage{
 		Host:     config.AppConf.Postgres.Host,
 		Port:     config.AppConf.Postgres.Port,
@@ -27,6 +29,10 @@ func Init() {
 		User:     config.AppConf.Postgres.User,
 		Password: config.AppConf.Postgres.Password,
 	}
+
+	fmt.Printf("%+v\n", Stor)
+
+	Stor.Db()
 }
 
 func (s *Storage) Connect() error {
