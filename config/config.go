@@ -63,15 +63,10 @@ func (c *appConfig) Load(fileNames ...string) error {
 		return err
 	}
 
-	c.Telegram, err = loadTelegramConfig()
-	if err != nil {
-		return err
-	}
+	c.Telegram = loadTelegramConfig()
 
-	c.SlackConf, err = loadSlackConfig()
-	if err != nil {
-		return err
-	}
+	c.SlackConf = loadSlackConfig()
+
 
 	return nil
 }
@@ -115,30 +110,31 @@ func loadPostgreConfig() (*PostgreConf, error) {
 	return Postgre, nil
 }
 
-func loadTelegramConfig() (*TelegramConf, error) {
+func loadTelegramConfig() *TelegramConf {
 	telegramConf := &TelegramConf{}
 
 	if e, ok := os.LookupEnv("TELEGRAM_BOT_TOKEN"); ok {
 		fmt.Printf("Setup telegram bot token: %s\n", maskString(e, 6))
 		telegramConf.BotToken = e
 	} else {
-		return nil, errors.New("TELEGRAM_BOT_TOKEN is invalid")
+		fmt.Println("TELEGRAM_BOT_TOKEN not found, telegram notification disabling...")
+		return nil
 	}
 
-	return telegramConf, nil
+	return telegramConf
 }
 
-func loadSlackConfig() (*SlackConf, error) {
+func loadSlackConfig() *SlackConf {
 	slackConf := &SlackConf{}
 
 	if e, ok := os.LookupEnv("SLACK_AUTH_TOKEN"); ok {
 		fmt.Printf("Setup slack auth token: %s\n", maskString(e, 6))
 		slackConf.AuthToken = e
 	} else {
-		return nil, errors.New("SLACK_AUTH_TOKEN is invalid")
+		fmt.Println("SLACK_AUTH_TOKEN not found, slack notification disabling...")
+		return nil
 	}
-
-	return slackConf, nil
+	return slackConf
 }
 
 func maskString(s string, showLastSymbols int) string {
