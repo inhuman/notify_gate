@@ -50,7 +50,7 @@ func (c *appConfig) Load(fileNames ...string) error {
 		c.Debug = false
 	}
 
-	if e, ok := os.LookupEnv("INSTANCE_TITLE"); ok {
+	if e, ok := os.LookupEnv("NG_INSTANCE_TITLE"); ok {
 		fmt.Printf("Notify gate instance title: %s\n", e)
 		c.InstanceTitle = e
 	} else {
