@@ -13,6 +13,7 @@ import (
 	"jgit.me/tools/notify_gate/notify"
 	"jgit.me/tools/notify_gate/senders"
 	"github.com/pkg/errors"
+	"github.com/gobuffalo/packr"
 )
 
 func Listen() {
@@ -26,14 +27,18 @@ func Listen() {
 }
 
 func mainPage(w http.ResponseWriter, r *http.Request) {
+
+	box := packr.NewBox("./../templates")
+	html := box.String("index.html")
 	tmpl := template.New("main")
-	tmpl, err := template.New("index.html").ParseFiles("index.html")
+	view, err := tmpl.Parse(html)
+
 	if err != nil {
 		log.Fatal("Can not expand template", err)
 		return
 	}
 
-	tmpl.Execute(w, nil)
+	view.Execute(w, nil)
 }
 
 func notifyHandler(w http.ResponseWriter, r *http.Request) {
