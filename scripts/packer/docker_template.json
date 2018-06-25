@@ -29,7 +29,8 @@
     {
       "type": "shell",
       "inline": [
-        "mkdir -p /opt/{{user `binary`}}/bin/"
+        "mkdir -p /opt/{{user `binary`}}/bin/",
+        "apk update && apk add ca-certificates && rm -rf /var/cache/apk/*"
       ]
     },
     {

@@ -6,6 +6,7 @@ services:
     environment:
       - TZ=Europe/Moscow
       - SLACK_AUTH_TOKEN=xoxb-83203347009-UlQ44yvWevhJ7qjiRLwViPcr
+      - TELEGRAM_BOT_TOKEN=618643564:AAEiGErcxH8rv3x96Hd7njw0ZvIiZ85SVqk
       - POSTGRES_PASSWORD=123
       - POSTGRES_USER=root
       - POSTGRES_DB=notify
