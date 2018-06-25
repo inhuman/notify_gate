@@ -64,7 +64,10 @@ L:
 		default:
 			n := notify.GetNotify()
 			if n.ID != 0 {
-				senders.Send(n)
+				err := senders.Send(n)
+				if err != nil {
+					fmt.Print(err)
+				}
 				db.Stor.Db().Unscoped().Delete(n)
 			}
 		}
