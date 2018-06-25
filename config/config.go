@@ -50,7 +50,7 @@ func (c *appConfig) Load(fileNames ...string) error {
 		c.Debug = false
 	}
 
-	if e, ok := os.LookupEnv("NG_PORT"); ok {
+	if e, ok := os.LookupEnv("NG_UI_PORT"); ok {
 		fmt.Printf("Notify gate port: %s\n", e)
 		c.Port = ":" + e
 	} else {
