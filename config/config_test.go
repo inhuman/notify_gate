@@ -14,11 +14,11 @@ func TestAppConfig_Load(t *testing.T) {
 
 	fh := createFileForTest(t, `TELEGRAM_BOT_TOKEN=telegram_bot_token
 SLACK_AUTH_TOKEN=slack_auth_token
-POSTGRE_HOST = "127.0.0.1"
-POSTGRE_PORT = "5432"
-POSTGRE_DB_NAME = "notify"
-POSTGRE_USER = "root"
-POSTGRE_PASSWORD = 123
+POSTGRES_HOST = "127.0.0.1"
+POSTGRES_PORT = "5432"
+POSTGRES_DB_NAME = "notify"
+POSTGRES_USER = "root"
+POSTGRES_PASSWORD = 123
 NG_DEBUG = true
 NG_PORT="8080"`)
 
