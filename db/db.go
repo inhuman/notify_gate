@@ -21,11 +21,11 @@ var Stor Storage
 
 func Init() {
 	Stor = Storage{
-		Host:     config.AppConf.Postgre.Host,
-		Port:     config.AppConf.Postgre.Port,
-		DbName:   config.AppConf.Postgre.DbName,
-		User:     config.AppConf.Postgre.User,
-		Password: config.AppConf.Postgre.Password,
+		Host:     config.AppConf.Postgres.Host,
+		Port:     config.AppConf.Postgres.Port,
+		DbName:   config.AppConf.Postgres.DbName,
+		User:     config.AppConf.Postgres.User,
+		Password: config.AppConf.Postgres.Password,
 	}
 }
 
