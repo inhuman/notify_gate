@@ -56,7 +56,7 @@ func (s *Storage) Db() *gorm.DB {
 	}
 
 	if s.db == nil {
-		<- time.After(2 * time.Second)
+		<- time.After(5 * time.Second)
 		return s.Db()
 	}
 

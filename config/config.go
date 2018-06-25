@@ -77,34 +77,34 @@ func loadPostgreConfig() (*PostgreConf, error) {
 		fmt.Printf("Setup Postgre host: %s\n", e)
 		Postgre.Host = e
 	} else {
-		return nil, errors.New("POSTGRES_HOST is invalid")
+		return nil, errors.New("POSTGRES_HOST not found")
 	}
 
 	if e, ok := os.LookupEnv("POSTGRES_PORT"); ok {
 		fmt.Printf("Setup Postgre port: %s\n", e)
 		Postgre.Port = e
 	} else {
-		fmt.Println("Setup default Postgre port: 3306")
-		Postgre.Port = "3306"
+		fmt.Println("Setup default Postgres port: 5432")
+		Postgre.Port = "5432"
 	}
 
 	if e, ok := os.LookupEnv("POSTGRES_DB_NAME"); ok {
-		fmt.Printf("Setup Postgre db: %s\n", e)
+		fmt.Printf("Setup Postgres db: %s\n", e)
 		Postgre.DbName = e
 	}
 
 	if e, ok := os.LookupEnv("POSTGRES_USER"); ok {
-		fmt.Printf("Setup Postgre user: %s\n", e)
+		fmt.Printf("Setup Postgres user: %s\n", e)
 		Postgre.User = e
 	} else {
-		return nil, errors.New("POSTGRES_USER is invalid")
+		return nil, errors.New("POSTGRES_USER not found")
 	}
 
 	if e, ok := os.LookupEnv("POSTGRES_PASSWORD"); ok {
 		fmt.Printf("Setup Postgre password: %s\n", maskString(e, 0))
 		Postgre.Password = e
 	} else {
-		return nil, errors.New("POSTGRES_PASSWORD is invalid")
+		return nil, errors.New("POSTGRES_PASSWORD not found")
 	}
 
 	return Postgre, nil
