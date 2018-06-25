@@ -63,3 +63,6 @@ func runApp() error {
 
 	return nil
 }
+
+
+//TODO: add env for title INSTANCE_TITLE for main page

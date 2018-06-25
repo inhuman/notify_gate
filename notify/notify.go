@@ -22,7 +22,7 @@ func (n *Notify) Execute() {
 }
 
 func (n *Notify) Delete() {
-	db.Stor.Db().Delete(n)
+	db.Stor.Db().Unscoped().Delete(n)
 }
 
 func GetNotify() *Notify {

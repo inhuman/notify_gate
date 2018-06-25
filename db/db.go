@@ -20,7 +20,7 @@ type Storage struct {
 var Stor Storage
 
 func Init() {
-	fmt.Println("Inializing db")
+
 
 	Stor = Storage{
 		Host:     config.AppConf.Postgres.Host,
@@ -31,6 +31,7 @@ func Init() {
 	}
 
 	Stor.Db()
+	fmt.Println("Db connected")
 }
 
 func (s *Storage) Connect() error {
@@ -42,7 +43,9 @@ func (s *Storage) Connect() error {
 			return err
 		}
 
+		//db.LogMode(true)
 		s.db = db
+
 	}
 	err := s.db.DB().Ping()
 	if err != nil {

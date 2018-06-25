@@ -4,6 +4,8 @@ services:
     depends_on:
       - postgres
     environment:
+      - TELEGRAM_BOT_TOKEN=618643564:AAEiGErcxH8rv3x96Hd7njw0ZvIiZ85SVqk
+      - SLACK_AUTH_TOKEN=xoxb-83203347009-UlQ44yvWevhJ7qjiRLwViPcr
       - TZ=Europe/Moscow
       - POSTGRES_PASSWORD=123
       - POSTGRES_USER=root
@@ -12,7 +14,7 @@ services:
       - POSTGRES_PORT=5432
       - NG_DEBUG=true
       - NG_UI_PORT=8080
-    image: docker-local.jgit.me/tools-notify-gate:master
+    image: docker-local.jgit.me/tools-notify-gate:0.1.0
     ports:
      - 8080:8080
   postgres:

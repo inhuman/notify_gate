@@ -14,15 +14,16 @@ import (
 	"jgit.me/tools/notify_gate/senders"
 	"github.com/pkg/errors"
 	"github.com/gobuffalo/packr"
+	"fmt"
 )
 
 func Listen() {
 
 	http.HandleFunc("/notify", http_helpers.Secured(notifyHandler))
-	http.HandleFunc("/register", register)
+	http.HandleFunc("/service/register", registerService)
+	http.HandleFunc("/service/unregister", http_helpers.Secured(unregisterService))
 	http.HandleFunc("/", mainPage)
 
-	http.HandleFunc("/get_registered", getAll)
 	log.Fatal(http.ListenAndServe(config.AppConf.Port, nil))
 }
 
@@ -38,7 +39,20 @@ func mainPage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	view.Execute(w, nil)
+	srcs, err := service.GetAll()
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	data := struct {
+		Services []service.Service
+		Title string
+	}{
+		Services: srcs,
+		Title: config.AppConf.InstanceTitle,
+	}
+
+	view.Execute(w, data)
 }
 
 func notifyHandler(w http.ResponseWriter, r *http.Request) {
@@ -72,25 +86,25 @@ func notifyHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func register(w http.ResponseWriter, r *http.Request) {
+func registerService(w http.ResponseWriter, r *http.Request) {
 	u := &service.Service{}
 	err := http_helpers.ParseRequest(r, u)
 	if http_errors.CheckErrorHttp(err, w, http.StatusBadRequest) {
 		return
 	}
-
 	res, err := service.Register(u)
 
-	cache.TokensCache[res.Token] = res.Name
-
 	if !http_errors.CheckErrorHttp(err, w, 409) {
+		cache.TokensCache[res.Token] = res.Name
 		http_helpers.JsonResponse(w, res)
 	}
 }
 
-func getAll(w http.ResponseWriter, r *http.Request) {
+func unregisterService(w http.ResponseWriter, r *http.Request) {
+	u := &service.Service{
+		Token: r.Header.Get("X-AUTH-TOKEN"),
+	}
 
-	users, err := service.GetAll()
-	http_errors.CheckErrorHttp(err, w, 500)
-	http_helpers.JsonResponse(w, users)
+	err := service.Unregister(u)
+	http_errors.CheckErrorHttp(err, w, 404)
 }

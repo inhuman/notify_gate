@@ -5,6 +5,7 @@ import (
 	"github.com/jinzhu/gorm"
 	"crypto/sha1"
 	"encoding/hex"
+	"fmt"
 )
 
 type Service struct {
@@ -17,7 +18,6 @@ func Register(srv *Service) (*Service, error) {
 
 	srv.Token = srv.GenerateToken()
 
-
 	tx := db.Stor.Db().Begin()
 	if err := tx.Create(&srv).Error; err != nil {
 		tx.Rollback()
@@ -25,6 +25,17 @@ func Register(srv *Service) (*Service, error) {
 	}
 
 	return srv, tx.Commit().Error
+}
+
+func Unregister(srv *Service) error {
+
+	fmt.Printf("%+v\n", srv)
+
+	if err := db.Stor.Db().Unscoped().Where("token = ?", srv.Token).Delete(Service{}).Error; err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func GetAll() ([]Service, error) {
