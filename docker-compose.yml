@@ -14,7 +14,8 @@ services:
       - POSTGRES_PORT=5432
       - NG_DEBUG=true
       - NG_UI_PORT=8080
-    image: docker-local.jgit.me/tools-notify-gate:0.1.0
+      - NG_INSTANCE_TITLE=dockrized instance
+    image: docker-local.jgit.me/tools-notify-gate:0.2.0
     ports:
      - 8080:8080
   postgres:
