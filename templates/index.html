@@ -21,7 +21,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
 
-    <title>Notify gate</title>
+    <title>Notify gate {{ .Title }}</title>
     <style>
         /* Code Styles */
         pre {
@@ -44,32 +44,43 @@
     </style>
 </head>
 <body>
-
-<div class="container" style="margin-top: 50px">
-    <h3>Notification gate</h3>
-    <form id="registerServiceForm">
-        <div class="form-group">
-            <label for="name">Register service</label>
-            <input type="text" class="form-control" id="name" placeholder="Enter service name">
+<div class="row">
+    <div class="col-sm-2">
+        <div class="container" style="margin-top: 90px">
+            <span>Services registered on this instance</span>
+            {{range $index, $value := .Services}}
+            <div class="title badge">{{.Name}}</div>
+            {{end}}
         </div>
-        <div class="form-group" style="display: none" id="tokenForm">
-            <label for="name">Service token</label>
-            <input type="text" class="form-control" id="token" disabled placeholder="">
+    </div>
+    <div class="col-sm-7">
+        <div class="container" style="margin-top: 50px">
+            <h3>Notification gate {{ .Title }}</h3>
+            <form id="registerServiceForm">
+                <div class="form-group">
+                    <label for="name">Register service</label>
+                    <input type="text" class="form-control" id="name" placeholder="Enter service name">
+                </div>
+                <div class="form-group" style="display: none" id="tokenForm">
+                    <label for="name">Service token</label>
+                    <input type="text" class="form-control" id="token" disabled placeholder="">
+                </div>
+                <div class="form-group" style="display: none" id="errorForm">
+                    <div class="alert alert-danger" role="alert" id="error"></div>
+                </div>
+                <button id="register" class="btn btn-primary">Submit</button>
+            </form>
+            <div class="container" id="usage" style="display: none;"></div>
         </div>
-        <div class="form-group" style="display: none" id="errorForm">
-            <div class="alert alert-danger" role="alert" id="error"></div>
-        </div>
-        <button id="register" class="btn btn-primary">Submit</button>
-    </form>
-    <div class="container" id="usage" style="display: none;"></div>
+    </div>
+    <div class="col-sm-3"></div>
 </div>
-
 
 <script>
     $("#register").click(function (e) {
 
         e.preventDefault();
-        let url = "/register";
+        let url = "/service/register";
         let arr = {Name: $("#name").val()};
         let data = JSON.stringify(arr);
         console.log(data);
@@ -122,10 +133,20 @@
                 "            " + window.location + "notify<br>" +
                 "        </pre>");
 
+        let divUnregister = $('<div></div>');
+        $(divUnregister).html(
+                "        Unregister service:<br>" +
+                "        <pre><br>" +
+                "            curl --header \"Content-Type: application/json\" <br>" +
+                "            --header \"X-AUTH-TOKEN: " + token + "\"<br>" +
+                "            " + window.location + "service/unregister<br>" +
+                "        </pre>");
+
         $("#usage")
                 .append("<h4>Usage</h4><span class='notice-usage'>Replace CHANNEL_ID with actual channel id<span>")
                 .append(divTelegram).css('display', 'block')
-                .append(divSlack).css('display', 'block');
+                .append(divSlack).css('display', 'block')
+                .append(divUnregister).css('display', 'block');
     }
 
 </script>

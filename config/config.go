@@ -11,11 +11,12 @@ import (
 var AppConf = &appConfig{}
 
 type appConfig struct {
-	Postgres   *PostgreConf
-	Telegram  *TelegramConf
-	SlackConf *SlackConf
-	Port      string
-	Debug     bool
+	Postgres      *PostgreConf
+	Telegram      *TelegramConf
+	SlackConf     *SlackConf
+	Port          string
+	Debug         bool
+	InstanceTitle string
 }
 
 type TelegramConf struct {
@@ -34,7 +35,6 @@ type PostgreConf struct {
 	DbName   string
 }
 
-
 func (c *appConfig) Load(fileNames ...string) error {
 
 	err := godotenv.Overload(fileNames...)
@@ -48,6 +48,14 @@ func (c *appConfig) Load(fileNames ...string) error {
 	} else {
 		fmt.Println("Notify gate debug mode (default): false")
 		c.Debug = false
+	}
+
+	if e, ok := os.LookupEnv("INSTANCE_TITLE"); ok {
+		fmt.Printf("Notify gate instance title: %s\n", e)
+		c.InstanceTitle = e
+	} else {
+		fmt.Println("Notify gate instance title (default): <none>")
+		c.InstanceTitle = ""
 	}
 
 	if e, ok := os.LookupEnv("NG_UI_PORT"); ok {
@@ -66,7 +74,6 @@ func (c *appConfig) Load(fileNames ...string) error {
 	c.Telegram = loadTelegramConfig()
 
 	c.SlackConf = loadSlackConfig()
-
 
 	return nil
 }

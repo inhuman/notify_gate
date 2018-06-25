@@ -1,10 +1,10 @@
 package senders
 
 import (
-	"jgit.me/tools/notify_gate/utils"
 	"jgit.me/tools/notify_gate/notify"
 	"errors"
 	"jgit.me/tools/notify_gate/config"
+	"fmt"
 )
 
 const(
@@ -17,17 +17,19 @@ var Providers = make(map[string]func(n *notify.Notify) error)
 
 func Init() error {
 
-	utils.ShowDebugMessage("Init send providers")
+	fmt.Println("Init send providers")
 
 	if config.AppConf.Telegram != nil {
 		InitTelegramClient()
 		Providers["TelegramChannel"] = SendToTelegramChat
+		fmt.Println("Telegram sender initialized")
 	} else {
 		Providers["TelegramChannel"] = nil
 	}
 
 	if config.AppConf.SlackConf != nil {
 		Providers["SlackChannel"] = SendToSlackChat
+		fmt.Println("Slack sender initialized")
 	} else {
 		Providers["SlackChannel"] = nil
 	}
