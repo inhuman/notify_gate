@@ -11,7 +11,7 @@ import (
 var AppConf = &appConfig{}
 
 type appConfig struct {
-	Postgre   *PostgreConf
+	Postgres   *PostgreConf
 	Telegram  *TelegramConf
 	SlackConf *SlackConf
 	Port      string
@@ -58,7 +58,7 @@ func (c *appConfig) Load(fileNames ...string) error {
 		c.Port = ":80"
 	}
 
-	c.Postgre, err = loadPostgreConfig()
+	c.Postgres, err = loadPostgreConfig()
 	if err != nil {
 		return err
 	}

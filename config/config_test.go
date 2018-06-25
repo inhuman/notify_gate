@@ -32,7 +32,7 @@ NG_PORT="8080"`)
 
 	assert.Equal(t, "telegram_bot_token", AppConf.Telegram.BotToken)
 	assert.Equal(t, "slack_auth_token", AppConf.SlackConf.AuthToken)
-	assert.Equal(t, "root", AppConf.Postgre.User)
+	assert.Equal(t, "root", AppConf.Postgres.User)
 	assert.Equal(t, ":8080", AppConf.Port)
 }
 
