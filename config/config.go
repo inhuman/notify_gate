@@ -34,10 +34,6 @@ type PostgreConf struct {
 	DbName   string
 }
 
-func init() {
-	AppConf.Load()
-}
-
 func (c *appConfig) Load(fileNames ...string) error {
 
 	err := godotenv.Overload(fileNames...)
