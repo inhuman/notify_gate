@@ -10,11 +10,36 @@ import (
 	"jgit.me/tools/notify_gate/workerpool"
 	"jgit.me/tools/notify_gate/senders"
 	"jgit.me/tools/notify_gate/config"
+	"os"
+	"fmt"
 )
 
 func main() {
 
-	config.AppConf.Load()
+	err := runApp()
+	if err != nil {
+		fmt.Println(err.Error())
+		os.Exit(1)
+	} else {
+		os.Exit(0)
+	}
+
+}
+
+func runApp() error {
+
+	if len(os.Args) > 1 {
+		err := config.AppConf.Load(os.Args...)
+		if err != nil {
+			return err
+		}
+	} else {
+		err := config.AppConf.Load()
+		if err != nil {
+			return err
+		}
+	}
+
 
 	db.Init()
 	db.Stor.Db()
@@ -31,4 +56,6 @@ func main() {
 
 	wpool.Close()
 	wpool.Wait()
+
+	return nil
 }

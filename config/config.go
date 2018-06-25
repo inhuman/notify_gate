@@ -34,11 +34,12 @@ type PostgreConf struct {
 	DbName   string
 }
 
+
 func (c *appConfig) Load(fileNames ...string) error {
 
 	err := godotenv.Overload(fileNames...)
 	if err != nil {
-		return nil
+		fmt.Println(".env file not found, trying fetch environment variables")
 	}
 
 	if e, ok := os.LookupEnv("NG_DEBUG"); ok {
