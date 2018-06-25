@@ -46,7 +46,7 @@ func runApp() error {
 	}
 
 	db.Init()
-	db.Stor.Db()
+
 	db.Stor.Migrate(service.Service{})
 	db.Stor.Migrate(notify.Notify{})
 
