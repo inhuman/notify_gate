@@ -11,6 +11,8 @@ import (
 	"jgit.me/tools/notify_gate/http-helpers"
 	"jgit.me/tools/notify_gate/pool"
 	"jgit.me/tools/notify_gate/notify"
+	"jgit.me/tools/notify_gate/senders"
+	"github.com/pkg/errors"
 )
 
 func Listen() {
@@ -37,11 +39,32 @@ func mainPage(w http.ResponseWriter, r *http.Request) {
 func notifyHandler(w http.ResponseWriter, r *http.Request) {
 	n := &notify.Notify{}
 
-	err := http_helpers.ParseRequest(r, n)
-	http_errors.CheckErrorHttp(err, w, 500)
+	respErr := http_helpers.ParseRequest(r, n)
+	if http_errors.CheckErrorHttp(respErr, w, 500) {
+		return
+	}
 
-	err = pool.NPool.AddToSave(n)
-	http_errors.CheckErrorHttp(err, w, 500)
+	var err error
+
+	switch senders.CheckSenderTypeAvailable(n) {
+	case senders.ProviderAvailable:
+		err = pool.NPool.AddToSave(n)
+		if http_errors.CheckErrorHttp(err, w, 500) {
+			return
+		}
+
+	case senders.ProviderUnavailable:
+		err = errors.New("Provider " + n.Type + " not available.")
+		if http_errors.CheckErrorHttp(err, w, 406) {
+			return
+		}
+
+	case senders.ProvideNotExist:
+		err = errors.New("Provider " + n.Type + " not exist.")
+		if http_errors.CheckErrorHttp(err, w, 404) {
+			return
+		}
+	}
 }
 
 func register(w http.ResponseWriter, r *http.Request) {

@@ -40,12 +40,16 @@ func runApp() error {
 		}
 	}
 
+	err := senders.Init()
+	if err != nil {
+		return err
+	}
 
 	db.Init()
 	db.Stor.Db()
 	db.Stor.Migrate(service.Service{})
 	db.Stor.Migrate(notify.Notify{})
-	senders.Init()
+
 
 	cache.BuildTokenCache()
 	wpool := workerpool.NewPool(5)
