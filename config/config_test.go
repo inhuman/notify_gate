@@ -20,7 +20,7 @@ POSTGRES_DB_NAME = "notify"
 POSTGRES_USER = "root"
 POSTGRES_PASSWORD = 123
 NG_DEBUG = true
-NG_PORT="8080"`)
+NG_UI_PORT="8080"`)
 
 	path := fh.Name()
 	defer func() {
