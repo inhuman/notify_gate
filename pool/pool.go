@@ -65,7 +65,8 @@ L:
 			if n.ID != 0 {
 				err := senders.Send(n)
 				if err != nil {
-					fmt.Print(err)
+					//TODO: refactor check errors, add check error format (%s)
+					fmt.Println(n.Type, "sending error:", err)
 				}
 				//TODO: refactor this
 				db.Stor.Db().Unscoped().Delete(n)
