@@ -8,37 +8,30 @@ import (
 	"time"
 )
 
-type Storage struct {
-	Host     string
-	Port     string
-	DbName   string
-	User     string
-	Password string
-	db       *gorm.DB
+type storage struct {
+	db *gorm.DB
 }
 
-var Stor Storage
+// Stor is used for access db
+var Stor storage
 
+// Init is used for initialize and connect to db
 func Init() {
-
-
-	Stor = Storage{
-		Host:     config.AppConf.Postgres.Host,
-		Port:     config.AppConf.Postgres.Port,
-		DbName:   config.AppConf.Postgres.DbName,
-		User:     config.AppConf.Postgres.User,
-		Password: config.AppConf.Postgres.Password,
-	}
-
+	Stor = storage{}
 	Stor.Db()
 	fmt.Println("Db connected")
 }
 
-func (s *Storage) Connect() error {
+func (s *storage) Connect() error {
 	if s.db == nil {
 		db, err := gorm.Open("postgres",
 			fmt.Sprintf("user=%s password=%s host=%s port=%s dbname=%s sslmode=disable",
-				s.User, s.Password, s.Host, s.Port, s.DbName))
+				config.AppConf.Postgres.User,
+				config.AppConf.Postgres.Password,
+				config.AppConf.Postgres.Host,
+				config.AppConf.Postgres.Port,
+				config.AppConf.Postgres.DbName,
+			))
 		if err != nil {
 			return err
 		}
@@ -54,7 +47,7 @@ func (s *Storage) Connect() error {
 	return nil
 }
 
-func (s *Storage) Db() *gorm.DB {
+func (s *storage) Db() *gorm.DB {
 	err := s.Connect()
 
 	if err != nil {
@@ -62,21 +55,21 @@ func (s *Storage) Db() *gorm.DB {
 	}
 
 	if s.db == nil {
-		<- time.After(5 * time.Second)
+		<-time.After(5 * time.Second)
 		return s.Db()
 	}
 
 	return s.db
 }
 
-func (s *Storage) Close() {
+func (s *storage) Close() {
 	s.Db().Close()
 }
 
-func (s *Storage) Migrate(object interface{}) {
+func (s *storage) Migrate(object interface{}) {
 	s.Db().AutoMigrate(object)
 }
 
-func (s *Storage) SetDb(db *gorm.DB) {
+func (s *storage) SetDb(db *gorm.DB) {
 	s.db = db
 }
