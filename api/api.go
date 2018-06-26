@@ -17,8 +17,9 @@ import (
 	"fmt"
 )
 
-func Listen() {
 
+// Listen is starting listens http api calls
+func Listen() {
 	http.HandleFunc("/notify", http_helpers.Secured(notifyHandler))
 	http.HandleFunc("/service/register", registerService)
 	http.HandleFunc("/service/unregister", http_helpers.Secured(unregisterService))
