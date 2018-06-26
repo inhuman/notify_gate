@@ -32,7 +32,6 @@ func Init() error {
 	}
 
 	if config.AppConf.Senders.Slack != nil {
-		initSlackClient()
 		providers["SlackChannel"] = sendToSlackChat
 		fmt.Println("Slack sender initialized")
 	} else {
