@@ -1,15 +1,16 @@
-package http_helpers
+package helpers
 
 import (
 	"net/http"
 	"io/ioutil"
 	"encoding/json"
 	"jgit.me/tools/notify_gate/cache"
-	"jgit.me/tools/notify_gate/http-errors"
 	"errors"
 	"jgit.me/tools/notify_gate/config"
+	"jgit.me/experiments/http-backend/http-errors"
 )
 
+// ParseRequest is used for parsing http.Request into given interface
 func ParseRequest(r *http.Request, object interface{}) error {
 	jsonBytes, err := ioutil.ReadAll(r.Body)
 	if err != nil {
@@ -23,7 +24,8 @@ func ParseRequest(r *http.Request, object interface{}) error {
 	return nil
 }
 
-func JsonResponse(w http.ResponseWriter, object interface{}) {
+// JSONResponse is used for marshaling interface to json and write it to http.ResponseWriter
+func JSONResponse(w http.ResponseWriter, object interface{}) {
 	jsn, err := json.Marshal(object)
 	http_errors.CheckError(err)
 	w.Header().Set("Content-type", "application/json")
@@ -31,6 +33,7 @@ func JsonResponse(w http.ResponseWriter, object interface{}) {
 	w.Write([]byte(jsn))
 }
 
+// Secured is used for checking auth token and refuse request if token invalid
 func Secured(handler func(w http.ResponseWriter, r *http.Request)) func(w http.ResponseWriter, r *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		token := r.Header.Get("X-AUTH-TOKEN")

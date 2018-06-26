@@ -3,26 +3,25 @@ package api
 import (
 	"net/http"
 	"log"
-	"jgit.me/tools/notify_gate/http-errors"
 	"jgit.me/tools/notify_gate/config"
 	"jgit.me/tools/notify_gate/service"
 	"jgit.me/tools/notify_gate/cache"
 	"html/template"
-	"jgit.me/tools/notify_gate/http-helpers"
 	"jgit.me/tools/notify_gate/pool"
 	"jgit.me/tools/notify_gate/notify"
 	"jgit.me/tools/notify_gate/senders"
 	"github.com/pkg/errors"
 	"github.com/gobuffalo/packr"
 	"fmt"
+	httpErrors "jgit.me/tools/notify_gate/http/errors"
+	httpHelpers "jgit.me/tools/notify_gate/http/helpers"
 )
-
 
 // Listen is starting listens http api calls
 func Listen() {
-	http.HandleFunc("/notify", http_helpers.Secured(notifyHandler))
+	http.HandleFunc("/notify", httpHelpers.Secured(notifyHandler))
 	http.HandleFunc("/service/register", registerService)
-	http.HandleFunc("/service/unregister", http_helpers.Secured(unregisterService))
+	http.HandleFunc("/service/unregister", httpHelpers.Secured(unregisterService))
 	http.HandleFunc("/", mainPage)
 
 	log.Fatal(http.ListenAndServe(config.AppConf.Port, nil))
@@ -47,10 +46,10 @@ func mainPage(w http.ResponseWriter, r *http.Request) {
 
 	data := struct {
 		Services []service.Service
-		Title string
+		Title    string
 	}{
 		Services: srcs,
-		Title: config.AppConf.InstanceTitle,
+		Title:    config.AppConf.InstanceTitle,
 	}
 
 	view.Execute(w, data)
@@ -59,8 +58,8 @@ func mainPage(w http.ResponseWriter, r *http.Request) {
 func notifyHandler(w http.ResponseWriter, r *http.Request) {
 	n := &notify.Notify{}
 
-	respErr := http_helpers.ParseRequest(r, n)
-	if http_errors.CheckErrorHttp(respErr, w, 500) {
+	respErr := httpHelpers.ParseRequest(r, n)
+	if httpErrors.CheckErrorHTTP(respErr, w, 500) {
 		return
 	}
 
@@ -69,19 +68,19 @@ func notifyHandler(w http.ResponseWriter, r *http.Request) {
 	switch senders.CheckSenderTypeAvailable(n) {
 	case senders.ProviderAvailable:
 		err = pool.NPool.AddToSave(n)
-		if http_errors.CheckErrorHttp(err, w, 500) {
+		if httpErrors.CheckErrorHTTP(err, w, 500) {
 			return
 		}
 
 	case senders.ProviderUnavailable:
 		err = errors.New("Provider " + n.Type + " not available.")
-		if http_errors.CheckErrorHttp(err, w, 406) {
+		if httpErrors.CheckErrorHTTP(err, w, 406) {
 			return
 		}
 
 	case senders.ProvideNotExist:
 		err = errors.New("Provider " + n.Type + " not exist.")
-		if http_errors.CheckErrorHttp(err, w, 404) {
+		if httpErrors.CheckErrorHTTP(err, w, 404) {
 			return
 		}
 	}
@@ -89,15 +88,15 @@ func notifyHandler(w http.ResponseWriter, r *http.Request) {
 
 func registerService(w http.ResponseWriter, r *http.Request) {
 	u := &service.Service{}
-	err := http_helpers.ParseRequest(r, u)
-	if http_errors.CheckErrorHttp(err, w, http.StatusBadRequest) {
+	err := httpHelpers.ParseRequest(r, u)
+	if httpErrors.CheckErrorHTTP(err, w, http.StatusBadRequest) {
 		return
 	}
 	srvs, err := service.Register(u)
 
-	if !http_errors.CheckErrorHttp(err, w, 409) {
+	if !httpErrors.CheckErrorHTTP(err, w, 409) {
 		cache.AddServiceToken(srvs.Name, srvs.Token)
-		http_helpers.JsonResponse(w, srvs)
+		httpHelpers.JSONResponse(w, srvs)
 	}
 }
 
@@ -107,5 +106,5 @@ func unregisterService(w http.ResponseWriter, r *http.Request) {
 	}
 
 	err := service.Unregister(u)
-	http_errors.CheckErrorHttp(err, w, 404)
+	httpErrors.CheckErrorHTTP(err, w, 404)
 }
