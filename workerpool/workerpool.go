@@ -1,14 +1,16 @@
 package workerpool
 
 import (
-	"fmt"
 	"sync"
 )
 
+
+// Task interface used for executing by worker pool
 type Task interface {
 	Execute()
 }
 
+// Pool is used for manage workers
 type Pool struct {
 	mu    sync.Mutex
 	size  int
@@ -17,6 +19,7 @@ type Pool struct {
 	wg    sync.WaitGroup
 }
 
+// NewPool is used for create worker pool by giving size, and initialize it
 func NewPool(size int) *Pool {
 	pool := &Pool{
 		tasks: make(chan Task, 128),
@@ -41,6 +44,7 @@ func (p *Pool) worker() {
 	}
 }
 
+// Resize is used for resize worker pool
 func (p *Pool) Resize(n int) {
 	p.mu.Lock()
 	defer p.mu.Unlock()
@@ -55,39 +59,18 @@ func (p *Pool) Resize(n int) {
 	}
 }
 
+// Close is used for closing task channel
 func (p *Pool) Close() {
 	close(p.tasks)
 }
 
+// Wait is used for waiting until all workers done
 func (p *Pool) Wait() {
 	p.wg.Wait()
 }
 
+// Exec is uses for executing Task
 func (p *Pool) Exec(task Task) {
 	p.tasks <- task
 }
 
-type ExampleTask string
-
-func (e ExampleTask) Execute() {
-	fmt.Println("executing:", string(e))
-}
-
-func main() {
-	pool := NewPool(5)
-
-	pool.Exec(ExampleTask("foo"))
-	pool.Exec(ExampleTask("bar"))
-
-	pool.Resize(3)
-
-	pool.Resize(6)
-
-	for i := 0; i < 20; i++ {
-		pool.Exec(ExampleTask(fmt.Sprintf("additional_%d", i+1)))
-	}
-
-	pool.Close()
-
-	pool.Wait()
-}

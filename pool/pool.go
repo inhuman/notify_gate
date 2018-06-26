@@ -5,7 +5,6 @@ import (
 	"jgit.me/tools/notify_gate/db"
 	"jgit.me/tools/notify_gate/notify"
 	"jgit.me/tools/notify_gate/senders"
-	"jgit.me/tools/notify_gate/utils"
 	"jgit.me/tools/notify_gate/workerpool"
 	"time"
 )
@@ -35,8 +34,6 @@ func AddToSave(n *notify.Notify) error {
 
 // Saver is used for process notifyPool.ToSave channel
 func Saver(wpool *workerpool.Pool) {
-	utils.ShowDebugMessage("Starting notify saver")
-
 	for {
 		select {
 		case n, ok := <-nPool.ToSave:
