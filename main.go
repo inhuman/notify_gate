@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"jgit.me/tools/notify_gate/api"
 	"jgit.me/tools/notify_gate/cache"
 	"jgit.me/tools/notify_gate/config"
@@ -12,13 +11,14 @@ import (
 	"jgit.me/tools/notify_gate/service"
 	"jgit.me/tools/notify_gate/workerpool"
 	"os"
+	"log"
 )
 
 func main() {
 
 	err := runApp()
 	if err != nil {
-		fmt.Println(err.Error())
+		log.Println(err.Error())
 		os.Exit(1)
 	} else {
 		os.Exit(0)
@@ -55,12 +55,11 @@ func runApp() error {
 
 	go pool.Saver(wpool)
 	go pool.Sender()
-	api.Listen()
+	log.Println("Ready for notifies")
 
+	api.Listen()
 	wpool.Close()
 	wpool.Wait()
 
 	return nil
 }
-
-//TODO: generate godoc in ci and place it to wiki

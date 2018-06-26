@@ -1,7 +1,6 @@
 package api
 
 import (
-	"fmt"
 	"github.com/gobuffalo/packr"
 	"github.com/pkg/errors"
 	"html/template"
@@ -41,7 +40,7 @@ func mainPage(w http.ResponseWriter, r *http.Request) {
 
 	srcs, err := service.GetAll()
 	if err != nil {
-		fmt.Println(err)
+		log.Println(err)
 	}
 
 	data := struct {

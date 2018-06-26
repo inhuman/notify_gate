@@ -4,7 +4,6 @@ import (
 	"sync"
 )
 
-
 // Task interface used for executing by worker pool
 type Task interface {
 	Execute()
@@ -73,4 +72,3 @@ func (p *Pool) Wait() {
 func (p *Pool) Exec(task Task) {
 	p.tasks <- task
 }
-

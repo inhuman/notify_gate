@@ -3,9 +3,9 @@ package service
 import (
 	"crypto/sha1"
 	"encoding/hex"
-	"fmt"
 	"github.com/jinzhu/gorm"
 	"jgit.me/tools/notify_gate/db"
+	"log"
 )
 
 // Service is used for manage services
@@ -32,7 +32,7 @@ func Register(srv *Service) (*Service, error) {
 // Unregister is used for remove service from db
 func Unregister(srv *Service) error {
 
-	fmt.Printf("%+v\n", srv)
+	log.Printf("%+v\n", srv)
 
 	if err := db.Stor.Db().Unscoped().Where("token = ?", srv.Token).Delete(Service{}).Error; err != nil {
 		return err

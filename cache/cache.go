@@ -1,9 +1,9 @@
 package cache
 
 import (
-	"fmt"
 	"jgit.me/tools/notify_gate/service"
 	"jgit.me/tools/notify_gate/utils"
+	"log"
 )
 
 var tokensCached = make(map[string]string)
@@ -15,7 +15,7 @@ func BuildServiceTokenCache() {
 
 	srvs, err := service.GetAll()
 	if err != nil {
-		fmt.Println("Build service tokens cache error: " + err.Error())
+		log.Println("Build service tokens cache error: " + err.Error())
 	}
 
 	for _, usr := range srvs {

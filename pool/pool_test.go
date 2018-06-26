@@ -121,12 +121,11 @@ func endExpect(t *testing.T, mock sqlmock.Sqlmock) {
 //	go Saver(wpool)
 //	go Sender()
 //
-//
-//	senders.Providers["test"] = func(n *notify.Notify) error {
+//	senders.AddSender("test", func(n *notify.Notify) error {
 //		time.Sleep(500 * time.Millisecond)
-//		fmt.Println("sent message " + n.Message)
+//		log.Println("sent message " + n.Message)
 //		return nil
-//	}
+//	})
 //
 //	for i := 0; i < 100; i++ {
 //		n := &notify.Notify{
