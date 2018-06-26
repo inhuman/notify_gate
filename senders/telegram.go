@@ -8,19 +8,19 @@ import (
 	"jgit.me/tools/notify_gate/utils"
 )
 
-var TelegramClient go_notify.ByChat
+var telegramClient go_notify.ByChat
 
-func InitTelegramClient() {
-	TelegramClient = telegram.New(telegram.Options{
-		Token: config.AppConf.Telegram.BotToken,
+func initTelegramClient() {
+	telegramClient = telegram.New(telegram.Options{
+		Token: config.AppConf.Senders.Telegram.BotToken,
 	})
 }
 
-func SendToTelegramChat(n *notify.Notify) error {
+func sendToTelegramChat(n *notify.Notify) error {
 
 	utils.ShowDebugMessage("Telegram sender")
 
-	err := TelegramClient.
+	err := telegramClient.
 		To("", n.UIDs...).
 		WithBody(n.Message).
 		Send()

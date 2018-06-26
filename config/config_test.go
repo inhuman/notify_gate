@@ -29,8 +29,8 @@ NG_UI_PORT="8080"`)
 
 	AppConf.Load(path)
 
-	assert.Equal(t, "telegram_bot_token", AppConf.Telegram.BotToken)
-	assert.Equal(t, "slack_auth_token", AppConf.SlackConf.AuthToken)
+	assert.Equal(t, "telegram_bot_token", AppConf.Senders.Telegram.BotToken)
+	assert.Equal(t, "slack_auth_token", AppConf.Senders.Slack.AuthToken)
 	assert.Equal(t, "root", AppConf.Postgres.User)
 	assert.Equal(t, ":8080", AppConf.Port)
 }

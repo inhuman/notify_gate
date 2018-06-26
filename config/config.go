@@ -12,12 +12,14 @@ import (
 var AppConf = &appConfig{}
 
 type appConfig struct {
-	Postgres      *postgreConf
-	Telegram      *telegramConf
-	SlackConf     *slackConf
+	Postgres *postgreConf
 	Port          string
 	Debug         bool
 	InstanceTitle string
+	Senders struct {
+		Telegram *telegramConf
+		Slack    *slackConf
+	}
 }
 
 type telegramConf struct {
@@ -72,9 +74,9 @@ func (c *appConfig) Load(fileNames ...string) error {
 		return err
 	}
 
-	c.Telegram = loadTelegramConfig()
+	c.Senders.Telegram = loadTelegramConfig()
 
-	c.SlackConf = loadSlackConfig()
+	c.Senders.Slack = loadSlackConfig()
 
 	return nil
 }
