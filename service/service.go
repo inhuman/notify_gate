@@ -8,12 +8,14 @@ import (
 	"jgit.me/tools/notify_gate/db"
 )
 
+// Service is used for manage services
 type Service struct {
 	gorm.Model
 	Name  string `gorm:"not null;unique"`
 	Token string `gorm:"not null;unique"`
 }
 
+// Register is used for create token and save to db service model
 func Register(srv *Service) (*Service, error) {
 
 	srv.Token = srv.GenerateToken()
@@ -27,6 +29,7 @@ func Register(srv *Service) (*Service, error) {
 	return srv, tx.Commit().Error
 }
 
+// Unregister is used for remove service from db
 func Unregister(srv *Service) error {
 
 	fmt.Printf("%+v\n", srv)
@@ -38,6 +41,7 @@ func Unregister(srv *Service) error {
 	return nil
 }
 
+// GetAll is used for receive all services from db
 func GetAll() ([]Service, error) {
 	srvs := []Service{}
 	db.Stor.Db().Find(&srvs)
@@ -45,6 +49,7 @@ func GetAll() ([]Service, error) {
 
 }
 
+// GenerateToken is used for generating service token
 func (u *Service) GenerateToken() string {
 	h := sha1.New()
 	h.Write([]byte(u.Name))
