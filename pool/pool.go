@@ -10,13 +10,14 @@ import (
 	"time"
 )
 
-var NPool = &NotifyPool{}
+
+var notifyPool = &NotifyPool{}
 
 func init() {
-	NPool.ToSend = make(chan *notify.Notify, 1024)
-	NPool.ToSave = make(chan *notify.Notify, 1024)
-	NPool.ToDelete = make(chan *notify.Notify, 1024)
-	NPool.Done = make(chan bool)
+	notifyPool.ToSend = make(chan *notify.Notify, 1024)
+	notifyPool.ToSave = make(chan *notify.Notify, 1024)
+	notifyPool.ToDelete = make(chan *notify.Notify, 1024)
+	notifyPool.Done = make(chan bool)
 }
 
 type NotifyPool struct {
@@ -26,13 +27,8 @@ type NotifyPool struct {
 	Done     chan bool
 }
 
-func (np *NotifyPool) AddToSave(n *notify.Notify) error {
-	np.ToSave <- n
-	return nil
-}
-
-func (np *NotifyPool) AddToSend(n *notify.Notify) error {
-	np.ToSend <- n
+func AddToSave(n *notify.Notify) error {
+	notifyPool.ToSave <- n
 	return nil
 }
 
@@ -41,13 +37,13 @@ func Saver(wpool *workerpool.Pool) {
 
 	for {
 		select {
-		case n, ok := <-NPool.ToSave:
+		case n, ok := <-notifyPool.ToSave:
 			if ok {
 				wpool.Exec(n)
 			} else {
 				fmt.Println("Can not read from notify channel")
 			}
-		case <-NPool.Done:
+		case <-notifyPool.Done:
 			wpool.Close()
 			wpool.Wait()
 			return
@@ -59,7 +55,7 @@ func Sender() {
 L:
 	for {
 		select {
-		case <-NPool.Done:
+		case <-notifyPool.Done:
 			break L
 		default:
 			n := notify.GetNotify()
