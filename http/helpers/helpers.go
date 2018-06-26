@@ -1,13 +1,13 @@
 package helpers
 
 import (
-	"net/http"
-	"io/ioutil"
 	"encoding/json"
-	"jgit.me/tools/notify_gate/cache"
 	"errors"
+	"io/ioutil"
+	"jgit.me/tools/notify_gate/cache"
 	"jgit.me/tools/notify_gate/config"
-	"jgit.me/experiments/http-backend/http-errors"
+	httpErrors "jgit.me/tools/notify_gate/http/errors"
+	"net/http"
 )
 
 // ParseRequest is used for parsing http.Request into given interface
@@ -27,7 +27,7 @@ func ParseRequest(r *http.Request, object interface{}) error {
 // JSONResponse is used for marshaling interface to json and write it to http.ResponseWriter
 func JSONResponse(w http.ResponseWriter, object interface{}) {
 	jsn, err := json.Marshal(object)
-	http_errors.CheckError(err)
+	httpErrors.CheckError(err)
 	w.Header().Set("Content-type", "application/json")
 	w.WriteHeader(200)
 	w.Write([]byte(jsn))
@@ -50,7 +50,7 @@ func Secured(handler func(w http.ResponseWriter, r *http.Request)) func(w http.R
 
 		if len(token) == 0 {
 			er := errors.New("Unauthorized")
-			http_errors.CheckErrorHttp(er, w, 401)
+			httpErrors.CheckErrorHTTP(er, w, 401)
 			return
 		}
 
@@ -60,7 +60,7 @@ func Secured(handler func(w http.ResponseWriter, r *http.Request)) func(w http.R
 			handler(w, r)
 		} else {
 			er := errors.New("Unauthorized")
-			http_errors.CheckErrorHttp(er, w, 401)
+			httpErrors.CheckErrorHTTP(er, w, 401)
 			return
 		}
 	}

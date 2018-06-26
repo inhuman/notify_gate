@@ -1,16 +1,15 @@
 package config
 
 import (
-	"testing"
+	"fmt"
+	"github.com/stretchr/testify/assert"
 	"os"
 	"path/filepath"
-	"fmt"
+	"testing"
 	"time"
-	"github.com/stretchr/testify/assert"
 )
 
 func TestAppConfig_Load(t *testing.T) {
-
 
 	fh := createFileForTest(t, `TELEGRAM_BOT_TOKEN=telegram_bot_token
 SLACK_AUTH_TOKEN=slack_auth_token
@@ -35,7 +34,6 @@ NG_UI_PORT="8080"`)
 	assert.Equal(t, "root", AppConf.Postgres.User)
 	assert.Equal(t, ":8080", AppConf.Port)
 }
-
 
 func createFileForTest(t *testing.T, s string) *os.File {
 	data := []byte(s)

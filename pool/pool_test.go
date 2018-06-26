@@ -1,10 +1,10 @@
 package pool
 
 import (
-	"testing"
-	"gopkg.in/DATA-DOG/go-sqlmock.v1"
 	"github.com/jinzhu/gorm"
+	"gopkg.in/DATA-DOG/go-sqlmock.v1"
 	"log"
+	"testing"
 )
 
 func getMock(t *testing.T) (*gorm.DB, sqlmock.Sqlmock) {
@@ -19,7 +19,7 @@ func getMock(t *testing.T) (*gorm.DB, sqlmock.Sqlmock) {
 	}
 	gormDB.LogMode(true)
 
-	return  gormDB.Set("gorm:update_column", true), mck
+	return gormDB.Set("gorm:update_column", true), mck
 }
 
 func endExpect(t *testing.T, mock sqlmock.Sqlmock) {
@@ -101,7 +101,6 @@ func endExpect(t *testing.T, mock sqlmock.Sqlmock) {
 //	}
 //	endExpect(t, mock)
 //}
-
 
 // test with real db, works fine
 //func TestNotifyPool_Add(t *testing.T) {

@@ -1,13 +1,13 @@
 package pool
 
 import (
-	"jgit.me/tools/notify_gate/utils"
+	"fmt"
+	"jgit.me/tools/notify_gate/db"
 	"jgit.me/tools/notify_gate/notify"
+	"jgit.me/tools/notify_gate/senders"
+	"jgit.me/tools/notify_gate/utils"
 	"jgit.me/tools/notify_gate/workerpool"
 	"time"
-	"fmt"
-	"jgit.me/tools/notify_gate/senders"
-	"jgit.me/tools/notify_gate/db"
 )
 
 var NPool = &NotifyPool{}

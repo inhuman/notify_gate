@@ -1,10 +1,10 @@
 package config
 
 import (
+	"errors"
+	"fmt"
 	"github.com/joho/godotenv"
 	"os"
-	"fmt"
-	"errors"
 	"strings"
 )
 
