@@ -1,9 +1,9 @@
 package cache
 
 import (
-	"jgit.me/tools/notify_gate/utils"
-	"jgit.me/tools/notify_gate/service"
 	"fmt"
+	"jgit.me/tools/notify_gate/service"
+	"jgit.me/tools/notify_gate/utils"
 )
 
 var tokensCached = make(map[string]string)
@@ -14,7 +14,7 @@ func BuildServiceTokenCache() {
 	utils.ShowDebugMessage("Building tokens cache")
 
 	srvs, err := service.GetAll()
-	if err!= nil {
+	if err != nil {
 		fmt.Println("Build service tokens cache error: " + err.Error())
 	}
 
@@ -34,6 +34,6 @@ func AddServiceToken(serviceName, token string) {
 }
 
 // InvalidateServiceTokens is used to invalidate service tokens cache
-func InvalidateServiceTokens(){
+func InvalidateServiceTokens() {
 	tokensCached = make(map[string]string)
 }

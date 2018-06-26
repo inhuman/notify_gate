@@ -1,9 +1,9 @@
 package errors
 
 import (
-	"net/http"
 	"encoding/json"
 	"log"
+	"net/http"
 )
 
 type httpError struct {

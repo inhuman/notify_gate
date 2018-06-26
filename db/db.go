@@ -1,9 +1,9 @@
 package db
 
 import (
+	"fmt"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres" // exporting postgres dialect
-	"fmt"
 	"jgit.me/tools/notify_gate/config"
 	"time"
 )

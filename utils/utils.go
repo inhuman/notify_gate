@@ -1,8 +1,8 @@
 package utils
 
 import (
-	"jgit.me/tools/notify_gate/config"
 	"fmt"
+	"jgit.me/tools/notify_gate/config"
 )
 
 func ShowDebugMessage(i interface{}) {
@@ -10,4 +10,3 @@ func ShowDebugMessage(i interface{}) {
 		fmt.Println(i)
 	}
 }
-

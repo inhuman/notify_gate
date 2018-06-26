@@ -1,16 +1,16 @@
 package senders
 
 import (
-	"jgit.me/tools/notify_gate/notify"
 	"errors"
-	"jgit.me/tools/notify_gate/config"
 	"fmt"
+	"jgit.me/tools/notify_gate/config"
+	"jgit.me/tools/notify_gate/notify"
 )
 
-const(
-	ProviderAvailable = 1
+const (
+	ProviderAvailable   = 1
 	ProviderUnavailable = 2
-	ProvideNotExist = 3
+	ProvideNotExist     = 3
 )
 
 var Providers = make(map[string]func(n *notify.Notify) error)

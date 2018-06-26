@@ -1,17 +1,17 @@
 package main
 
 import (
-	"jgit.me/tools/notify_gate/api"
-	"jgit.me/tools/notify_gate/pool"
-	"jgit.me/tools/notify_gate/db"
-	"jgit.me/tools/notify_gate/service"
-	"jgit.me/tools/notify_gate/cache"
-	"jgit.me/tools/notify_gate/notify"
-	"jgit.me/tools/notify_gate/workerpool"
-	"jgit.me/tools/notify_gate/senders"
-	"jgit.me/tools/notify_gate/config"
-	"os"
 	"fmt"
+	"jgit.me/tools/notify_gate/api"
+	"jgit.me/tools/notify_gate/cache"
+	"jgit.me/tools/notify_gate/config"
+	"jgit.me/tools/notify_gate/db"
+	"jgit.me/tools/notify_gate/notify"
+	"jgit.me/tools/notify_gate/pool"
+	"jgit.me/tools/notify_gate/senders"
+	"jgit.me/tools/notify_gate/service"
+	"jgit.me/tools/notify_gate/workerpool"
+	"os"
 )
 
 func main() {
@@ -50,7 +50,6 @@ func runApp() error {
 	db.Stor.Migrate(service.Service{})
 	db.Stor.Migrate(notify.Notify{})
 
-
 	cache.BuildServiceTokenCache()
 	wpool := workerpool.NewPool(5)
 
@@ -63,3 +62,5 @@ func runApp() error {
 
 	return nil
 }
+
+//TODO: generate godoc in ci and place it to wiki

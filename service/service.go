@@ -1,11 +1,11 @@
 package service
 
 import (
-	"jgit.me/tools/notify_gate/db"
-	"github.com/jinzhu/gorm"
 	"crypto/sha1"
 	"encoding/hex"
 	"fmt"
+	"github.com/jinzhu/gorm"
+	"jgit.me/tools/notify_gate/db"
 )
 
 type Service struct {

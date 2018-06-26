@@ -1,14 +1,14 @@
 package cache_test
 
 import (
-	"testing"
 	"github.com/jinzhu/gorm"
-	"gopkg.in/DATA-DOG/go-sqlmock.v1"
-	"log"
-	"time"
-	"jgit.me/tools/notify_gate/db"
 	"github.com/stretchr/testify/assert"
+	"gopkg.in/DATA-DOG/go-sqlmock.v1"
 	"jgit.me/tools/notify_gate/cache"
+	"jgit.me/tools/notify_gate/db"
+	"log"
+	"testing"
+	"time"
 )
 
 func getMock(t *testing.T) (*gorm.DB, sqlmock.Sqlmock) {
