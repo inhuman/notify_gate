@@ -2,7 +2,7 @@ package db
 
 import (
 	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/postgres"
+	_ "github.com/jinzhu/gorm/dialects/postgres" // exporting postgres dialect
 	"fmt"
 	"jgit.me/tools/notify_gate/config"
 	"time"
@@ -45,7 +45,6 @@ func (s *Storage) Connect() error {
 
 		//db.LogMode(true)
 		s.db = db
-
 	}
 	err := s.db.DB().Ping()
 	if err != nil {

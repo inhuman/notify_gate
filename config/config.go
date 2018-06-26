@@ -8,26 +8,27 @@ import (
 	"strings"
 )
 
+// AppConf is main app config
 var AppConf = &appConfig{}
 
 type appConfig struct {
-	Postgres      *PostgreConf
-	Telegram      *TelegramConf
-	SlackConf     *SlackConf
+	Postgres      *postgreConf
+	Telegram      *telegramConf
+	SlackConf     *slackConf
 	Port          string
 	Debug         bool
 	InstanceTitle string
 }
 
-type TelegramConf struct {
+type telegramConf struct {
 	BotToken string
 }
 
-type SlackConf struct {
+type slackConf struct {
 	AuthToken string
 }
 
-type PostgreConf struct {
+type postgreConf struct {
 	Host     string
 	Port     string
 	User     string
@@ -78,8 +79,8 @@ func (c *appConfig) Load(fileNames ...string) error {
 	return nil
 }
 
-func loadPostgreConfig() (*PostgreConf, error) {
-	Postgre := &PostgreConf{}
+func loadPostgreConfig() (*postgreConf, error) {
+	Postgre := &postgreConf{}
 	if e, ok := os.LookupEnv("POSTGRES_HOST"); ok {
 		fmt.Printf("Setup Postgre host: %s\n", e)
 		Postgre.Host = e
@@ -117,8 +118,8 @@ func loadPostgreConfig() (*PostgreConf, error) {
 	return Postgre, nil
 }
 
-func loadTelegramConfig() *TelegramConf {
-	telegramConf := &TelegramConf{}
+func loadTelegramConfig() *telegramConf {
+	telegramConf := &telegramConf{}
 
 	if e, ok := os.LookupEnv("TELEGRAM_BOT_TOKEN"); ok {
 		fmt.Printf("Setup telegram bot token: %s\n", maskString(e, 6))
@@ -131,8 +132,8 @@ func loadTelegramConfig() *TelegramConf {
 	return telegramConf
 }
 
-func loadSlackConfig() *SlackConf {
-	slackConf := &SlackConf{}
+func loadSlackConfig() *slackConf {
+	slackConf := &slackConf{}
 
 	if e, ok := os.LookupEnv("SLACK_AUTH_TOKEN"); ok {
 		fmt.Printf("Setup slack auth token: %s\n", maskString(e, 6))
