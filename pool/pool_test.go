@@ -87,14 +87,14 @@ func endExpect(t *testing.T, mock sqlmock.Sqlmock) {
 //		n.CreatedAt = tt
 //		n.UpdatedAt = tt
 //
-//		notifyPool.AddToSave(n)
+//		nPool.AddToSave(n)
 //	}
 //	<- time.After(1 * time.Second)
 //
 //	for {
 //		n := notify.GetNotify()
 //		if n.ID == 0 {
-//			notifyPool.Done <- true
+//			nPool.Done <- true
 //			break
 //		}
 //		<- time.After(1 * time.Second)
@@ -140,7 +140,7 @@ func endExpect(t *testing.T, mock sqlmock.Sqlmock) {
 //	for {
 //		n := notify.GetNotify()
 //		if n.ID == 0 {
-//			notifyPool.Done <- true
+//			nPool.Done <- true
 //			break
 //		}
 //		<- time.After(1 * time.Second)

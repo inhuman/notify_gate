@@ -11,39 +11,41 @@ import (
 )
 
 
-var notifyPool = &NotifyPool{}
+var nPool = &notifyPool{}
 
 func init() {
-	notifyPool.ToSend = make(chan *notify.Notify, 1024)
-	notifyPool.ToSave = make(chan *notify.Notify, 1024)
-	notifyPool.ToDelete = make(chan *notify.Notify, 1024)
-	notifyPool.Done = make(chan bool)
+	nPool.ToSend = make(chan *notify.Notify, 1024)
+	nPool.ToSave = make(chan *notify.Notify, 1024)
+	nPool.ToDelete = make(chan *notify.Notify, 1024)
+	nPool.Done = make(chan bool)
 }
 
-type NotifyPool struct {
+type notifyPool struct {
 	ToSend   chan *notify.Notify
 	ToSave   chan *notify.Notify
 	ToDelete chan *notify.Notify
 	Done     chan bool
 }
 
+// AddToSave is used for adding notify into queue to save
 func AddToSave(n *notify.Notify) error {
-	notifyPool.ToSave <- n
+	nPool.ToSave <- n
 	return nil
 }
 
+// Saver is used for process notifyPool.ToSave channel
 func Saver(wpool *workerpool.Pool) {
 	utils.ShowDebugMessage("Starting notify saver")
 
 	for {
 		select {
-		case n, ok := <-notifyPool.ToSave:
+		case n, ok := <-nPool.ToSave:
 			if ok {
 				wpool.Exec(n)
 			} else {
 				fmt.Println("Can not read from notify channel")
 			}
-		case <-notifyPool.Done:
+		case <-nPool.Done:
 			wpool.Close()
 			wpool.Wait()
 			return
@@ -51,11 +53,12 @@ func Saver(wpool *workerpool.Pool) {
 	}
 }
 
+// Sender is used for read notify from db and send them
 func Sender() {
 L:
 	for {
 		select {
-		case <-notifyPool.Done:
+		case <-nPool.Done:
 			break L
 		default:
 			n := notify.GetNotify()
@@ -64,6 +67,7 @@ L:
 				if err != nil {
 					fmt.Print(err)
 				}
+				//TODO: refactor this
 				db.Stor.Db().Unscoped().Delete(n)
 			}
 		}

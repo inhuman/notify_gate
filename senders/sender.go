@@ -7,54 +7,59 @@ import (
 	"jgit.me/tools/notify_gate/notify"
 )
 
+// Send provider statuses
 const (
 	ProviderAvailable   = 1
 	ProviderUnavailable = 2
 	ProvideNotExist     = 3
 )
 
-var Providers = make(map[string]func(n *notify.Notify) error)
+var providers = make(map[string]func(n *notify.Notify) error)
 
+
+// Init is used for initialize and build map of senders
 func Init() error {
 
 	fmt.Println("Init send providers")
 
-	if config.AppConf.Telegram != nil {
-		InitTelegramClient()
-		Providers["TelegramChannel"] = SendToTelegramChat
+	//TODO: refactor to cycle that iterates throw senders
+	if config.AppConf.Senders.Telegram != nil {
+		initTelegramClient()
+		providers["TelegramChannel"] = sendToTelegramChat
 		fmt.Println("Telegram sender initialized")
 	} else {
-		Providers["TelegramChannel"] = nil
+		providers["TelegramChannel"] = nil
 	}
 
-	if config.AppConf.SlackConf != nil {
-		Providers["SlackChannel"] = SendToSlackChat
+	if config.AppConf.Senders.Slack != nil {
+		initSlackClient()
+		providers["SlackChannel"] = sendToSlackChat
 		fmt.Println("Slack sender initialized")
 	} else {
-		Providers["SlackChannel"] = nil
+		providers["SlackChannel"] = nil
 	}
 
 	atLeastOneProviderAvailable := false
 
-	for _, prov := range Providers {
+	for _, prov := range providers {
 		if prov != nil {
 			atLeastOneProviderAvailable = true
 		}
 	}
 
 	if !atLeastOneProviderAvailable {
-		return errors.New("No send providers available. Exiting..")
+		return errors.New("no send providers available, exiting")
 	}
 
 	return nil
 }
 
-// The function call send provider if it exists on provider map,
+// Send is used for call send method of provider if it exists on provider map and equal Notify.Type,
 // or return error if it doesn't.
 // Also error returned if provider can not send the notify
 func Send(n *notify.Notify) error {
-	if provider, ok := Providers[n.Type]; ok {
-		err := provider(n)
+	if prov, ok := providers[n.Type]; ok {
+		err := prov(n)
 		if err != nil {
 			return err
 		}
@@ -65,13 +70,14 @@ func Send(n *notify.Notify) error {
 	return nil
 }
 
+// CheckSenderTypeAvailable is used for check that provider exist and available for given Notify,
+// and return provider status
 func CheckSenderTypeAvailable(n *notify.Notify) int {
-	if provider, ok := Providers[n.Type]; ok {
-		if provider != nil {
+	if prov, ok := providers[n.Type]; ok {
+		if prov != nil {
 			return ProviderAvailable
-		} else {
-			return ProviderUnavailable
 		}
+		return ProviderUnavailable
 	}
 	return ProvideNotExist
 }
