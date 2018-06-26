@@ -67,7 +67,7 @@ func notifyHandler(w http.ResponseWriter, r *http.Request) {
 
 	switch senders.CheckSenderTypeAvailable(n) {
 	case senders.ProviderAvailable:
-		err = pool.NPool.AddToSave(n)
+		err = pool.AddToSave(n)
 		if httpErrors.CheckErrorHTTP(err, w, 500) {
 			return
 		}
