@@ -2,7 +2,7 @@ package errors
 
 import (
 	"encoding/json"
-	"log"
+	"jgit.me/tools/notify_gate/utils"
 	"net/http"
 )
 
@@ -18,7 +18,7 @@ func CheckErrorHTTP(err error, w http.ResponseWriter, code int) bool {
 		var er httpError
 		er.Error = err.Error()
 		jsn, errr := json.Marshal(er)
-		CheckError(errr)
+		utils.CheckError(errr)
 
 		w.Header().Set("Content-type", "application/json")
 		w.WriteHeader(code)
@@ -26,11 +26,4 @@ func CheckErrorHTTP(err error, w http.ResponseWriter, code int) bool {
 		return true
 	}
 	return false
-}
-
-// CheckError is used for log error if not nil
-func CheckError(err error) {
-	if err != nil {
-		log.Println("error:", err)
-	}
 }

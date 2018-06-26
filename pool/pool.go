@@ -1,14 +1,13 @@
 package pool
 
 import (
-	"fmt"
-	"jgit.me/tools/notify_gate/db"
 	"jgit.me/tools/notify_gate/notify"
 	"jgit.me/tools/notify_gate/senders"
+	"jgit.me/tools/notify_gate/utils"
 	"jgit.me/tools/notify_gate/workerpool"
+	"log"
 	"time"
 )
-
 
 var nPool = &notifyPool{}
 
@@ -40,7 +39,7 @@ func Saver(wpool *workerpool.Pool) {
 			if ok {
 				wpool.Exec(n)
 			} else {
-				fmt.Println("Can not read from notify channel")
+				log.Println("Can not read from notify channel")
 			}
 		case <-nPool.Done:
 			wpool.Close()
@@ -61,12 +60,8 @@ L:
 			n := notify.GetNotify()
 			if n.ID != 0 {
 				err := senders.Send(n)
-				if err != nil {
-					//TODO: refactor check errors, add check error format (%s)
-					fmt.Println(n.Type, "sending error:", err)
-				}
-				//TODO: refactor this
-				db.Stor.Db().Unscoped().Delete(n)
+				utils.CheckErrorMessage(n.Type+" sending error:", err)
+				n.Delete()
 			}
 		}
 		<-time.After(1000 * time.Millisecond)

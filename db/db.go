@@ -5,6 +5,7 @@ import (
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres" // exporting postgres dialect
 	"jgit.me/tools/notify_gate/config"
+	"log"
 	"time"
 )
 
@@ -19,7 +20,7 @@ var Stor storage
 func Init() {
 	Stor = storage{}
 	Stor.Db()
-	fmt.Println("Db connected")
+	log.Println("Db connected")
 }
 
 func (s *storage) Connect() error {
@@ -51,7 +52,7 @@ func (s *storage) Db() *gorm.DB {
 	err := s.Connect()
 
 	if err != nil {
-		fmt.Println("Lost db connection. Reconnecting..")
+		log.Println("Lost db connection. Reconnecting..")
 	}
 
 	if s.db == nil {

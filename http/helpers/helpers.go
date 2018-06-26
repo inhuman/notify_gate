@@ -7,6 +7,7 @@ import (
 	"jgit.me/tools/notify_gate/cache"
 	"jgit.me/tools/notify_gate/config"
 	httpErrors "jgit.me/tools/notify_gate/http/errors"
+	"jgit.me/tools/notify_gate/utils"
 	"net/http"
 )
 
@@ -27,7 +28,7 @@ func ParseRequest(r *http.Request, object interface{}) error {
 // JSONResponse is used for marshaling interface to json and write it to http.ResponseWriter
 func JSONResponse(w http.ResponseWriter, object interface{}) {
 	jsn, err := json.Marshal(object)
-	httpErrors.CheckError(err)
+	utils.CheckError(err)
 	w.Header().Set("Content-type", "application/json")
 	w.WriteHeader(200)
 	w.Write([]byte(jsn))
