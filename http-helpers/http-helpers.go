@@ -36,8 +36,8 @@ func Secured(handler func(w http.ResponseWriter, r *http.Request)) func(w http.R
 		token := r.Header.Get("X-AUTH-TOKEN")
 
 		//TODO: rebuild cache if unavailable ?
-		//if len(cache.TokensCache) == 0 {
-		//	cache.BuildTokenCache()
+		//if len(cache.tokensCached) == 0 {
+		//	cache.BuildServiceTokenCache()
 		//}
 
 		if config.AppConf.Debug && (token == "test_token") {
@@ -51,7 +51,7 @@ func Secured(handler func(w http.ResponseWriter, r *http.Request)) func(w http.R
 			return
 		}
 
-		_, ok := cache.TokensCache[token]
+		_, ok := cache.GetServiceTokens()[token]
 
 		if ok {
 			handler(w, r)

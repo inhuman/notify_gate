@@ -93,11 +93,11 @@ func registerService(w http.ResponseWriter, r *http.Request) {
 	if http_errors.CheckErrorHttp(err, w, http.StatusBadRequest) {
 		return
 	}
-	res, err := service.Register(u)
+	srvs, err := service.Register(u)
 
 	if !http_errors.CheckErrorHttp(err, w, 409) {
-		cache.TokensCache[res.Token] = res.Name
-		http_helpers.JsonResponse(w, res)
+		cache.AddServiceToken(srvs.Name, srvs.Token)
+		http_helpers.JsonResponse(w, srvs)
 	}
 }
 

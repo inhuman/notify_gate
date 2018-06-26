@@ -51,7 +51,7 @@ func runApp() error {
 	db.Stor.Migrate(notify.Notify{})
 
 
-	cache.BuildTokenCache()
+	cache.BuildServiceTokenCache()
 	wpool := workerpool.NewPool(5)
 
 	go pool.Saver(wpool)

@@ -6,19 +6,34 @@ import (
 	"fmt"
 )
 
-type Tokens map[string]string
+var tokensCached = make(map[string]string)
 
-var TokensCache = make(Tokens)
-
-func BuildTokenCache() {
+// BuildServiceTokenCache is used for build service tokens cache from db.
+// Tokens cache used for authorize services
+func BuildServiceTokenCache() {
 	utils.ShowDebugMessage("Building tokens cache")
 
 	srvs, err := service.GetAll()
 	if err!= nil {
-		fmt.Println("Build tokens cache error: " + err.Error())
+		fmt.Println("Build service tokens cache error: " + err.Error())
 	}
 
 	for _, usr := range srvs {
-		TokensCache[usr.Token] = usr.Name
+		tokensCached[usr.Token] = usr.Name
 	}
+}
+
+// GetServiceTokens is used for receive service tokens cache
+func GetServiceTokens() map[string]string {
+	return tokensCached
+}
+
+// AddServiceToken is used to add service token to cache
+func AddServiceToken(serviceName, token string) {
+	tokensCached[token] = serviceName
+}
+
+// InvalidateServiceTokens is used to invalidate service tokens cache
+func InvalidateServiceTokens(){
+	tokensCached = make(map[string]string)
 }

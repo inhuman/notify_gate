@@ -1,4 +1,4 @@
-package cache
+package cache_test
 
 import (
 	"testing"
@@ -8,6 +8,7 @@ import (
 	"time"
 	"jgit.me/tools/notify_gate/db"
 	"github.com/stretchr/testify/assert"
+	"jgit.me/tools/notify_gate/cache"
 )
 
 func getMock(t *testing.T) (*gorm.DB, sqlmock.Sqlmock) {
@@ -30,7 +31,7 @@ func endExpect(t *testing.T, mock sqlmock.Sqlmock) {
 	}
 }
 
-func TestBuildTokenCache(t *testing.T) {
+func TestBuildServiceTokenCache(t *testing.T) {
 
 	dbm, mock := getMock(t)
 	defer dbm.Close()
@@ -45,9 +46,21 @@ func TestBuildTokenCache(t *testing.T) {
 	mock.ExpectQuery(`SELECT (.+) FROM "services" (.+)`).
 		WillReturnRows(rows)
 
-	BuildTokenCache()
+	cache.InvalidateServiceTokens()
+	cache.BuildServiceTokenCache()
 	endExpect(t, mock)
 
-	assert.Equal(t, "test_service", TokensCache["test_token"])
+	assert.Equal(t, "test_service", cache.GetServiceTokens()["test_token"])
+}
 
+func TestAddServiceToken(t *testing.T) {
+
+	cache.InvalidateServiceTokens()
+
+	assert.Equal(t, 0, len(cache.GetServiceTokens()))
+
+	cache.AddServiceToken("test_service", "test_token")
+
+	assert.Equal(t, 1, len(cache.GetServiceTokens()))
+	assert.Equal(t, "test_service", cache.GetServiceTokens()["test_token"])
 }
