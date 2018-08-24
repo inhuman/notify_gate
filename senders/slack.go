@@ -2,9 +2,9 @@ package senders
 
 import (
 	"github.com/appscode/go-notify/slack"
-	"jgit.me/tools/notify_gate/config"
-	"jgit.me/tools/notify_gate/notify"
-	"jgit.me/tools/notify_gate/utils"
+	"github.com/inhuman/notify_gate/config"
+	"github.com/inhuman/notify_gate/notify"
+	"github.com/inhuman/notify_gate/utils"
 )
 
 func sendToSlackChat(n *notify.Notify) error {

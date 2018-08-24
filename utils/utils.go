@@ -1,7 +1,7 @@
 package utils
 
 import (
-	"jgit.me/tools/notify_gate/config"
+	"github.com/inhuman/notify_gate/config"
 	"log"
 )
 

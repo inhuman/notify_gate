@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres" // exporting postgres dialect
-	"jgit.me/tools/notify_gate/config"
+	"github.com/inhuman/notify_gate/config"
 	"log"
 	"time"
 )

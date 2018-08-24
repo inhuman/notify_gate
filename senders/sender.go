@@ -2,8 +2,8 @@ package senders
 
 import (
 	"errors"
-	"jgit.me/tools/notify_gate/config"
-	"jgit.me/tools/notify_gate/notify"
+	"github.com/inhuman/notify_gate/config"
+	"github.com/inhuman/notify_gate/notify"
 	"log"
 )
 

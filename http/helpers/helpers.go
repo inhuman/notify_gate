@@ -4,10 +4,10 @@ import (
 	"encoding/json"
 	"errors"
 	"io/ioutil"
-	"jgit.me/tools/notify_gate/cache"
-	"jgit.me/tools/notify_gate/config"
-	httpErrors "jgit.me/tools/notify_gate/http/errors"
-	"jgit.me/tools/notify_gate/utils"
+	"github.com/inhuman/notify_gate/cache"
+	"github.com/inhuman/notify_gate/config"
+	httpErrors "github.com/inhuman/notify_gate/http/errors"
+	"github.com/inhuman/notify_gate/utils"
 	"net/http"
 )
 

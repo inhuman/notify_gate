@@ -3,9 +3,9 @@ package senders
 import (
 	go_notify "github.com/appscode/go-notify"
 	"github.com/appscode/go-notify/telegram"
-	"jgit.me/tools/notify_gate/config"
-	"jgit.me/tools/notify_gate/notify"
-	"jgit.me/tools/notify_gate/utils"
+	"github.com/inhuman/notify_gate/config"
+	"github.com/inhuman/notify_gate/notify"
+	"github.com/inhuman/notify_gate/utils"
 )
 
 var telegramClient go_notify.ByChat
