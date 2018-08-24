@@ -1,5 +1,6 @@
 # Notify gate
 [![Build Status](https://travis-ci.org/inhuman/notify_gate.svg?branch=master)](https://travis-ci.org/inhuman/notify_gate)
+
 Service to send notifications to telegram or slack.
 
 ## Deploy
