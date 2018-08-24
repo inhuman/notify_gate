@@ -50,7 +50,7 @@ Telegram:
 Slack:
 ```
             curl --header "Content-Type: application/json" 
-            --header "X-AUTH-TOKEN: 0ddebbc5c2136520809bd13ea6c710138577bc62"
+            --header "X-AUTH-TOKEN: service_token"
             --request POST 
             --data '{"type": "SlackChannel", "message": "test for slack",  "uids" : ["CHANNEL_ID", "CHANNEL2_ID"]}'
             http://localhost:8085/notify
