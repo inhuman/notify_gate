@@ -1,8 +1,12 @@
 FROM alpine
 LABEL maintainer="msgexec@gmail.com"
 
-COPY ./notify-gate /usr/local/bin
+RUN mkdir -p /opt/notify-gate/templates
 
-RUN chmod +x /usr/local/bin/notify-gate
+COPY ./notify-gate /opt/notify-gate/
+COPY templates/index.html /opt/notify-gate/templates
+
+RUN chmod +x /opt/notify-gate/notify-gate
 RUN apk update && apk add ca-certificates
-ENTRYPOINT /usr/local/bin/notify-gate
+
+ENTRYPOINT /opt/notify-gate/notify-gate
