@@ -44,18 +44,18 @@ Replace CHANNEL_ID with actual channel id
 
 Telegram:
 ```
-            curl --header "Content-Type: application/json" 
-            --header "X-AUTH-TOKEN: service_token"
-            --request POST 
-            --data '{"type": "TelegramChannel", "message": "test for telegram",  "uids" : ["CHANNEL_ID", "CHANNEL2_ID"]}'
-            http://localhost:8080/notify
+            curl --header "Content-Type: application/json" /
+            --header "X-AUTH-TOKEN: service_token"         /
+            --request POST                                 /  
+            --data '{"type": "TelegramChannel", "message": "test for telegram",  "uids" : ["CHANNEL_ID", "CHANNEL2_ID"]}' /
+            http://localhost:8080/notify 
 ```
 Slack:
 ```
-            curl --header "Content-Type: application/json" 
-            --header "X-AUTH-TOKEN: service_token"
-            --request POST 
-            --data '{"type": "SlackChannel", "message": "test for slack",  "uids" : ["CHANNEL_ID", "CHANNEL2_ID"]}'
+            curl --header "Content-Type: application/json" /
+            --header "X-AUTH-TOKEN: service_token"         /
+            --request POST                                 /
+            --data '{"type": "SlackChannel", "message": "test for slack",  "uids" : ["CHANNEL_ID", "CHANNEL2_ID"]}' /
             http://localhost:8085/notify
 ```
 3. Getting telegram bot token
