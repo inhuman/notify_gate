@@ -14,7 +14,7 @@ $ ./notify-gate
 
 2. Doker image
 ```
-$ docker pull inhuman/notify_gate
+$ docker pull idconstruct/notify_gate
 $ docker-compose up
 ```
 
