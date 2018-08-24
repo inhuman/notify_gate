@@ -4,7 +4,7 @@ import (
 	"crypto/sha1"
 	"encoding/hex"
 	"github.com/jinzhu/gorm"
-	"jgit.me/tools/notify_gate/db"
+	"github.com/inhuman/notify_gate/db"
 	"log"
 )
 

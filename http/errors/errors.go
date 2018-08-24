@@ -2,7 +2,7 @@ package errors
 
 import (
 	"encoding/json"
-	"jgit.me/tools/notify_gate/utils"
+	"github.com/inhuman/notify_gate/utils"
 	"net/http"
 )
 

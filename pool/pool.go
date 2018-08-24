@@ -1,10 +1,10 @@
 package pool
 
 import (
-	"jgit.me/tools/notify_gate/notify"
-	"jgit.me/tools/notify_gate/senders"
-	"jgit.me/tools/notify_gate/utils"
-	"jgit.me/tools/notify_gate/workerpool"
+	"github.com/inhuman/notify_gate/notify"
+	"github.com/inhuman/notify_gate/senders"
+	"github.com/inhuman/notify_gate/utils"
+	"github.com/inhuman/notify_gate/workerpool"
 	"log"
 	"time"
 )

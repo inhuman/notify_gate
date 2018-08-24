@@ -1,15 +1,15 @@
 package main
 
 import (
-	"jgit.me/tools/notify_gate/api"
-	"jgit.me/tools/notify_gate/cache"
-	"jgit.me/tools/notify_gate/config"
-	"jgit.me/tools/notify_gate/db"
-	"jgit.me/tools/notify_gate/notify"
-	"jgit.me/tools/notify_gate/pool"
-	"jgit.me/tools/notify_gate/senders"
-	"jgit.me/tools/notify_gate/service"
-	"jgit.me/tools/notify_gate/workerpool"
+	"github.com/inhuman/notify_gate/api"
+	"github.com/inhuman/notify_gate/cache"
+	"github.com/inhuman/notify_gate/config"
+	"github.com/inhuman/notify_gate/db"
+	"github.com/inhuman/notify_gate/notify"
+	"github.com/inhuman/notify_gate/pool"
+	"github.com/inhuman/notify_gate/senders"
+	"github.com/inhuman/notify_gate/service"
+	"github.com/inhuman/notify_gate/workerpool"
 	"os"
 	"log"
 )

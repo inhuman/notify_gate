@@ -1,8 +1,8 @@
 package cache
 
 import (
-	"jgit.me/tools/notify_gate/service"
-	"jgit.me/tools/notify_gate/utils"
+	"github.com/inhuman/notify_gate/service"
+	"github.com/inhuman/notify_gate/utils"
 	"log"
 )
 

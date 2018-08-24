@@ -3,7 +3,7 @@ package notify
 import (
 	"github.com/jinzhu/gorm"
 	"github.com/lib/pq"
-	"jgit.me/tools/notify_gate/db"
+	"github.com/inhuman/notify_gate/db"
 )
 
 // Notify is used for managing notifies
