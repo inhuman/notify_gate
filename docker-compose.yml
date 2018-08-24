@@ -4,8 +4,6 @@ services:
     depends_on:
     - postgres
     environment:
-    - TELEGRAM_BOT_TOKEN=618643564:AAEiGErcxH8rv3x96Hd7njw0ZvIiZ85SVqk
-    - SLACK_AUTH_TOKEN=xoxb-83203347009-UlQ44yvWevhJ7qjiRLwViPcr
     - TZ=Europe/Moscow
     - POSTGRES_PASSWORD=123
     - POSTGRES_USER=root
