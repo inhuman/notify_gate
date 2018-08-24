@@ -31,7 +31,7 @@ NG_INSTANCE_TITLE
 
 ```
 
-2. Usage
+## Usage
 
 1. First of all, when image deployed or binary running (for example on localhost:8080), need to generate service token. Go to address http://localhost:8080 and follow instructions to generate service token
 
