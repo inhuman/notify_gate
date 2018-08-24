@@ -1,0 +1,26 @@
+language: go
+
+go:
+- "1.10"
+
+install: true
+notifications:
+  email: false
+
+jobs:
+  include:
+  - stage: build docker image
+    script:
+    - export SOURCE_IMAGE='alpine'
+    - export PROJECT_NAME='notify_gate'
+    - export GOPATH="${TRAVIS_BUILD_DIR}/vendor:${TRAVIS_BUILD_DIR}"
+    - export IMAGE_NAME=$DOCKER_USERNAME/$PROJECT_NAME
+    - export CGO_ENABLED=0
+    - env
+    - go get -v -t -d ./src/...
+    - go build -i -v --ldflags '-extldflags "-static"' -o bin/notify-gate src/main.go
+    - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+    - docker build -t $IMAGE_NAME .
+    - docker images
+    - docker tag $IMAGE_NAME $IMAGE_NAME
+    - docker push $IMAGE_NAME
