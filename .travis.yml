@@ -17,8 +17,8 @@ jobs:
     - export IMAGE_NAME=$DOCKER_USERNAME/$PROJECT_NAME
     - export CGO_ENABLED=0
     - env
-    - go get -v -t -d ./src/...
-    - go build -i -v --ldflags '-extldflags "-static"' -o bin/notify-gate src/main.go
+    - go get -v -t -d ./...
+    - go build -i -v --ldflags '-extldflags "-static"' -o bin/notify-gate main.go
     - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
     - docker build -t $IMAGE_NAME .
     - docker images
