@@ -4,17 +4,19 @@ services:
     depends_on:
     - postgres
     environment:
+    - TELEGRAM_BOT_TOKEN=618643564:AAEiGErcxH8rv3x96Hd7njw0ZvIiZ85SVqk
+    - SLACK_AUTH_TOKEN=xoxb-83203347009-UlQ44yvWevhJ7qjiRLwViPcr
     - TZ=Europe/Moscow
     - POSTGRES_PASSWORD=123
     - POSTGRES_USER=root
     - POSTGRES_DB=notify
     - POSTGRES_HOST=postgres
     - POSTGRES_PORT=5432
-    - NG_UI_PORT=8080
+    - NG_UI_PORT=8089
     - NG_INSTANCE_TITLE=dockrized instance
     image: idconstruct/notify_gate:latest
     ports:
-    - 8080:8080
+    - 8089:8089
   postgres:
     image: postgres
     environment:
