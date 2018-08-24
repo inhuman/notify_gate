@@ -14,10 +14,11 @@ $ ./notify-gate
 
 2. Doker image
 ```
-docker run inhuman/notify_gate
+$ docker pull inhuman/notify_gate
+$ docker-compose up
 ```
 
-Postrges env variables are required, but if used docker image no need to set postrges env, by default it uses embedded pg instance
+Postrges env variables are required
 ```
 POSTGRES_HOST
 POSTGRES_PORT 
