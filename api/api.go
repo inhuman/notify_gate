@@ -31,11 +31,13 @@ func mainPage(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Println("Main page")
 	box := packr.NewBox("./../templates")
+
+	fmt.Println(box)
+
 	html := box.String("index.html")
 	tmpl := template.New("main")
 	view, err := tmpl.Parse(html)
 
-	fmt.Println(html)
 
 	if err != nil {
 		log.Fatal("Can not expand template", err)
