@@ -19,7 +19,8 @@ jobs:
     - export PATH=$PATH:$GOPATH/bin
     - go get -v -t -d ./...
     - go get -u github.com/gobuffalo/packr/...
-    - ${TRAVIS_BUILD_DIR}/vendor/bin/packr build -i -v --ldflags '-extldflags "-static"' -o notify-gate main.go
+    - ls -la vendor/bin
+    - vendor/bin/packr build -i -v --ldflags '-extldflags "-static"' -o notify-gate main.go
     - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
     - docker build -t $IMAGE_NAME .
     - docker images
