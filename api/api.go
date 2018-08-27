@@ -14,6 +14,7 @@ import (
 	"github.com/inhuman/notify_gate/service"
 	"log"
 	"net/http"
+	"fmt"
 )
 
 // Listen is starting listens http api calls
@@ -28,10 +29,13 @@ func Listen() {
 
 func mainPage(w http.ResponseWriter, r *http.Request) {
 
+	fmt.Println("Main page")
 	box := packr.NewBox("./../templates")
 	html := box.String("index.html")
 	tmpl := template.New("main")
 	view, err := tmpl.Parse(html)
+
+	fmt.Println(html)
 
 	if err != nil {
 		log.Fatal("Can not expand template", err)
