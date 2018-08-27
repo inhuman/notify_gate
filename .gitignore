@@ -3,3 +3,4 @@
 .env.dist
 pool/.env
 .gitlab-ci.yml
+.docker-compose.yml
