@@ -14,8 +14,7 @@ $ ./notify-gate
 
 2. Doker image
 ```
-$ docker pull idconstruct/notify_gate
-$ docker-compose up
+$ docker run idconstruct/notify_gate
 ```
 
 Postrges env variables are required
