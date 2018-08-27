@@ -28,7 +28,7 @@ func Listen() {
 
 func mainPage(w http.ResponseWriter, r *http.Request) {
 
-	box := packr.NewBox("./../templates")
+	box := packr.NewBox(".")
 	html := box.String("index.html")
 	tmpl := template.New("main")
 	view, err := tmpl.Parse(html)
