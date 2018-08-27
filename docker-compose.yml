@@ -1,0 +1,25 @@
+version: '2'
+services:
+  notify-gate:
+    depends_on:
+    - postgres
+    environment:
+
+    - TZ=Europe/Moscow
+    - POSTGRES_PASSWORD=123
+    - POSTGRES_USER=root
+    - POSTGRES_DB=notify
+    - POSTGRES_HOST=postgres
+    - POSTGRES_PORT=5432
+    - NG_UI_PORT=8089
+    - NG_INSTANCE_TITLE=dockrized instance
+    image: idconstruct/notify_gate:latest
+    ports:
+    - 8089:8089
+  postgres:
+    image: postgres
+    environment:
+    - POSTGRES_PASSWORD=123
+    - POSTGRES_USER=root
+    - POSTGRES_DB=notify
+
