@@ -35,7 +35,13 @@ NG_INSTANCE_TITLE
 
 ## Usage
 
-1. First of all, when image deployed or binary running (for example on localhost:8080), need to generate service token. Go to address http://localhost:8080 and follow instructions to generate service token
+1. First of all, when image deployed or binary running (for example on localhost:8080), need to generate service token. 
+```
+            curl --header "Content-Type: application/json" /
+            --request POST                                 /  
+            --data '{"name": "YOUR_SERVICE_NAME"}' /
+            http://localhost:8080/service/register 
+```
 
 2. Send notifications
 
