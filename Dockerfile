@@ -1,4 +1,4 @@
-FROM alpine
+FROM centos
 LABEL maintainer="msgexec@gmail.com"
 
 RUN mkdir -p /opt/notify-gate
