@@ -3,7 +3,6 @@ package api
 import (
 	"fmt"
 	"github.com/gobuffalo/packr"
-	"github.com/inhuman/notify_gate/cache"
 	"github.com/inhuman/notify_gate/config"
 	httpErrors "github.com/inhuman/notify_gate/http/errors"
 	httpHelpers "github.com/inhuman/notify_gate/http/helpers"
@@ -19,9 +18,7 @@ import (
 
 // Listen is starting listens http api calls
 func Listen() {
-	http.HandleFunc("/notify", httpHelpers.Secured(notifyHandler))
-	http.HandleFunc("/service/register", registerService)
-	http.HandleFunc("/service/unregister", httpHelpers.Secured(unregisterService))
+	http.HandleFunc("/notify", notifyHandler)
 	http.HandleFunc("/", mainPage)
 
 	log.Fatal(http.ListenAndServe(":"+config.AppConf.Port, nil))
@@ -88,27 +85,4 @@ func notifyHandler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
-}
-
-func registerService(w http.ResponseWriter, r *http.Request) {
-	u := &service.Service{}
-	err := httpHelpers.ParseRequest(r, u)
-	if httpErrors.CheckErrorHTTP(err, w, http.StatusBadRequest) {
-		return
-	}
-	srvs, err := service.Register(u)
-
-	if !httpErrors.CheckErrorHTTP(err, w, 409) {
-		cache.AddServiceToken(srvs.Name, srvs.Token)
-		httpHelpers.JSONResponse(w, srvs)
-	}
-}
-
-func unregisterService(w http.ResponseWriter, r *http.Request) {
-	u := &service.Service{
-		Token: r.Header.Get("X-AUTH-TOKEN"),
-	}
-
-	err := service.Unregister(u)
-	httpErrors.CheckErrorHTTP(err, w, 404)
 }

@@ -40,16 +40,6 @@ func runApp() error {
 
 	db.Init()
 
-	//err = db.Stor.Migrate(service.Service{})
-	//if err != nil {
-	//	return err
-	//}
-	//
-	//err = db.Stor.Migrate(notify.Notify{})
-	//if err != nil {
-	//	return err
-	//}
-
 	err = db.Stor.Db().DropTableIfExists(&service.Service{}).CreateTable(&service.Service{}).Error
 	if err != nil {
 		return err

@@ -2,12 +2,7 @@ package helpers
 
 import (
 	"encoding/json"
-	"errors"
 	"io/ioutil"
-	"github.com/inhuman/notify_gate/cache"
-	"github.com/inhuman/notify_gate/config"
-	httpErrors "github.com/inhuman/notify_gate/http/errors"
-	"github.com/inhuman/notify_gate/utils"
 	"net/http"
 )
 
@@ -23,46 +18,4 @@ func ParseRequest(r *http.Request, object interface{}) error {
 		return err
 	}
 	return nil
-}
-
-// JSONResponse is used for marshaling interface to json and write it to http.ResponseWriter
-func JSONResponse(w http.ResponseWriter, object interface{}) {
-	jsn, err := json.Marshal(object)
-	utils.CheckError(err)
-	w.Header().Set("Content-type", "application/json")
-	w.WriteHeader(200)
-	w.Write([]byte(jsn))
-}
-
-// Secured is used for checking auth token and refuse request if token invalid
-func Secured(handler func(w http.ResponseWriter, r *http.Request)) func(w http.ResponseWriter, r *http.Request) {
-	return func(w http.ResponseWriter, r *http.Request) {
-		token := r.Header.Get("X-AUTH-TOKEN")
-
-		//TODO: rebuild cache if unavailable ?
-		//if len(cache.tokensCached) == 0 {
-		//	cache.BuildServiceTokenCache()
-		//}
-
-		if config.AppConf.Debug && (token == "test_token") {
-			handler(w, r)
-			return
-		}
-
-		if len(token) == 0 {
-			er := errors.New("Unauthorized")
-			httpErrors.CheckErrorHTTP(er, w, 401)
-			return
-		}
-
-		_, ok := cache.GetServiceTokens()[token]
-
-		if ok {
-			handler(w, r)
-		} else {
-			er := errors.New("Unauthorized")
-			httpErrors.CheckErrorHTTP(er, w, 401)
-			return
-		}
-	}
 }
