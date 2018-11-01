@@ -6,6 +6,7 @@ import (
 	"github.com/inhuman/notify_gate/config"
 	"github.com/inhuman/notify_gate/notify"
 	"github.com/inhuman/notify_gate/utils"
+	"log"
 )
 
 var telegramClient go_notify.ByChat
@@ -19,6 +20,7 @@ func initTelegramClient() {
 func sendToTelegramChat(n *notify.Notify) error {
 
 	utils.ShowDebugMessage("Telegram sender")
+	log.Printf("notify: %+v\n", n)
 
 	err := telegramClient.
 		To("", n.UIDs...).

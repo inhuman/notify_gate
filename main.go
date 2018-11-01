@@ -10,8 +10,8 @@ import (
 	"github.com/inhuman/notify_gate/senders"
 	"github.com/inhuman/notify_gate/service"
 	"github.com/inhuman/notify_gate/workerpool"
-	"os"
 	"log"
+	"os"
 )
 
 func main() {
@@ -28,28 +28,37 @@ func main() {
 
 func runApp() error {
 
-	if len(os.Args) > 1 {
-		err := config.AppConf.Load(os.Args...)
-		if err != nil {
-			return err
-		}
-	} else {
-		err := config.AppConf.Load()
-		if err != nil {
-			return err
-		}
+	err := config.AppConf.Load()
+	if err != nil {
+		return err
 	}
 
-	err := senders.Init()
+	err = senders.Init()
 	if err != nil {
 		return err
 	}
 
 	db.Init()
 
-	db.Stor.Migrate(service.Service{})
-	db.Stor.Migrate(notify.Notify{})
+	//err = db.Stor.Migrate(service.Service{})
+	//if err != nil {
+	//	return err
+	//}
+	//
+	//err = db.Stor.Migrate(notify.Notify{})
+	//if err != nil {
+	//	return err
+	//}
 
+	err = db.Stor.Db().DropTableIfExists(&service.Service{}).CreateTable(&service.Service{}).Error
+	if err != nil {
+		return err
+	}
+
+	err = db.Stor.Db().DropTableIfExists(&notify.Notify{}).CreateTable(&notify.Notify{}).Error
+	if err != nil {
+		return err
+	}
 
 	cache.BuildServiceTokenCache()
 	wpool := workerpool.NewPool(5)

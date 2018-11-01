@@ -41,7 +41,7 @@ func Init() error {
 
 // initTelegramSender is used for initialize telegram sender
 func initTelegramSender() {
-	if config.AppConf.Senders.Telegram != nil {
+	if config.AppConf.Senders.Telegram.BotToken != "" {
 		initTelegramClient()
 		providers["TelegramChannel"] = sendToTelegramChat
 		log.Println("Telegram sender initialized")
@@ -52,7 +52,7 @@ func initTelegramSender() {
 
 // initSlackSender is used for initialize slack sender
 func initSlackSender() {
-	if config.AppConf.Senders.Slack != nil {
+	if config.AppConf.Senders.Slack.AuthToken != "" {
 		providers["SlackChannel"] = sendToSlackChat
 		log.Println("Slack sender initialized")
 	} else {
@@ -65,7 +65,6 @@ func AddSender(name string, f func(n *notify.Notify) error) error {
 
 	return nil
 }
-
 
 // Send is used for call send method of provider if it exists on provider map and equal Notify.Type,
 // or return error if it doesn't.

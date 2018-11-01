@@ -2,10 +2,12 @@ package db
 
 import (
 	"fmt"
+	"github.com/inhuman/notify_gate/config"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres" // exporting postgres dialect
-	"github.com/inhuman/notify_gate/config"
+	_ "github.com/jinzhu/gorm/dialects/sqlite"
 	"log"
+	"os"
 	"time"
 )
 
@@ -24,22 +26,43 @@ func Init() {
 }
 
 func (s *storage) Connect() error {
-	if s.db == nil {
-		db, err := gorm.Open("postgres",
-			fmt.Sprintf("user=%s password=%s host=%s port=%s dbname=%s sslmode=disable",
-				config.AppConf.Postgres.User,
-				config.AppConf.Postgres.Password,
-				config.AppConf.Postgres.Host,
-				config.AppConf.Postgres.Port,
-				config.AppConf.Postgres.DbName,
-			))
-		if err != nil {
-			return err
-		}
 
-		//db.LogMode(true)
-		s.db = db
+	if s.db == nil {
+		switch config.AppConf.DB.Type {
+		case "postgres":
+
+			//TODO: check config values if postgres
+			db, err := gorm.Open("postgres",
+				fmt.Sprintf("user=%s password=%s host=%s port=%s dbname=%s sslmode=disable",
+					config.AppConf.DB.User,
+					config.AppConf.DB.Password,
+					config.AppConf.DB.Host,
+					config.AppConf.DB.Port,
+					config.AppConf.DB.Name,
+				))
+			if err != nil {
+				return err
+			}
+
+			//db.LogMode(true)
+			s.db = db
+		case "sqlite3":
+
+			db, err := gorm.Open("sqlite3", "notifies.db")
+			if err != nil {
+				return err
+			}
+
+			//db.LogMode(true)
+			s.db = db
+
+		default:
+			fmt.Println("Database type:", config.AppConf.DB.Type, "not supported")
+			fmt.Println("Available types: postgres, sqlite3")
+			os.Exit(1)
+		}
 	}
+
 	err := s.db.DB().Ping()
 	if err != nil {
 		s.db = nil
@@ -67,8 +90,8 @@ func (s *storage) Close() {
 	s.Db().Close()
 }
 
-func (s *storage) Migrate(object interface{}) {
-	s.Db().AutoMigrate(object)
+func (s *storage) Migrate(object interface{}) error {
+	return s.Db().AutoMigrate(object).Error
 }
 
 func (s *storage) SetDb(db *gorm.DB) {

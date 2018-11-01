@@ -1,21 +1,27 @@
 package notify
 
 import (
-	"github.com/jinzhu/gorm"
-	"github.com/lib/pq"
 	"github.com/inhuman/notify_gate/db"
+	"github.com/jinzhu/gorm"
+	"strings"
 )
 
 // Notify is used for managing notifies
 type Notify struct {
 	gorm.Model
-	Type    string         `json:"type"`
-	Message string         `json:"message"`
-	UIDs    pq.StringArray `json:"uids" gorm:"type:varchar(64)[]"`
+	Type    string   `json:"type"`
+	Message string   `json:"message"`
+	UIDs    []string `json:"uids" gorm:"-" sql:"-"`
+	UIDsStr string
 }
 
 // Save is used for saving notify to db
 func (n *Notify) Save() {
+
+	if len(n.UIDs) > 0 {
+		n.UIDsStr = strings.Join(n.UIDs, ";")
+	}
+
 	db.Stor.Db().Save(n)
 }
 
@@ -33,5 +39,6 @@ func (n *Notify) Delete() {
 func GetNotify() *Notify {
 	ns := &Notify{}
 	db.Stor.Db().First(ns)
+	ns.UIDs = strings.Split(ns.UIDsStr, ";")
 	return ns
 }
