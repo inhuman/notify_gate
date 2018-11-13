@@ -48,6 +48,8 @@ func (c *appConfig) Load(fileNames ...string) error {
 
 	configMerger.AddSource(&config_merger.EnvSource{
 		Variables: []string{
+			"TELEGRAM_BOT_TOKEN",
+			"SLACK_AUTH_TOKEN",
 			"NG_UI_PORT",
 			"NG_DEBUG",
 			"NG_INSTANCE_TITLE",
@@ -57,8 +59,6 @@ func (c *appConfig) Load(fileNames ...string) error {
 			"DB_USER",
 			"DB_PASSWORD",
 			"DB_NAME",
-			"TELEGRAM_BOT_TOKEN",
-			"SLACK_AUTH_TOKEN",
 		},
 	})
 
