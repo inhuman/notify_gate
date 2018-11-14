@@ -218,6 +218,8 @@ github.com/imdario/mergo v0.3.6/go.mod h1:2EnlNZ0deacrJVfApfmtdGgDfMuh/nq6Ok1EcJ
 github.com/inconshreveable/mousetrap v1.0.0/go.mod h1:PxqpIevigyE2G7u3NXJIT2ANytuPF1OarO4DADm73n8=
 github.com/inhuman/config_merger v0.1.11 h1:h2Niy7djHn93H4fmyyfrwkmOFXToL6FLUBNn+y4OXE0=
 github.com/inhuman/config_merger v0.1.11/go.mod h1:O34to2a0ud2Abh+bX2eFpQPSHH0OlQPiN4MsbT3n5EU=
+github.com/inhuman/config_merger v0.1.17 h1:xj9X5bbX325a0bWWV05dOF5Wz6UqqB/UX0PBBsVnniA=
+github.com/inhuman/config_merger v0.1.17/go.mod h1:AwNaLcV2EseOXB6QXQOMvsizAXWrGj5YXsXCVLn+gIw=
 github.com/inhuman/consul-kv-mapper v0.0.0-20180816140018-bac235d734fb h1:IsY9Ru05klySyOJn0aDxC6QNQnJYA9pO4Y3hY7LXrgA=
 github.com/inhuman/consul-kv-mapper v0.0.0-20180816140018-bac235d734fb/go.mod h1:GTlrcu5yoJgyJP33/rQjKSNfJpGE19mZHSKuqgEb/Fg=
 github.com/jarcoal/httpmock v0.0.0-20180424175123-9c70cfe4a1da h1:FjHUJJ7oBW4G/9j1KzlHaXL09LyMVM9rupS39lncbXk=
