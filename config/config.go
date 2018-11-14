@@ -41,9 +41,10 @@ func (c *appConfig) Load(fileNames ...string) error {
 
 	err := godotenv.Overload(fileNames...)
 	if err != nil {
-		log.Println(".env file not found, trying fetch environment variables")
+		log.Println("Fetching environment variables from OS")
+	} else {
+		log.Println("Fetching environment variables from .env file")
 	}
-
 	configMerger := config_merger.NewMerger(c)
 
 	configMerger.AddSource(&config_merger.EnvSource{
