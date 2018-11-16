@@ -4,7 +4,7 @@ require (
 	github.com/erikstmartin/go-testdb v0.0.0-20160219214506-8d10e4a1bae5 // indirect
 	github.com/gobuffalo/packr v1.16.0
 	github.com/inhuman/config_merger v0.1.22
-	github.com/inhuman/go-notify v0.1.3
+	github.com/inhuman/go-notify v0.1.4
 	github.com/jinzhu/gorm v1.9.1
 	github.com/jinzhu/inflection v0.0.0-20180308033659-04140366298a // indirect
 	github.com/jinzhu/now v0.0.0-20180511015916-ed742868f2ae // indirect
