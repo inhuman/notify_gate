@@ -74,7 +74,7 @@ func (s *storage) Db() *gorm.DB {
 	err := s.Connect()
 
 	if err != nil {
-		log.Println("Lost db connection. Reconnecting..")
+		log.Printf("Lost db connection with err: %s. Reconnecting..\n", err)
 	}
 
 	if s.db == nil {
