@@ -15,8 +15,9 @@ type appConfig struct {
 	Debug         bool   `env:"NG_DEBUG"`
 	InstanceTitle string `env:"NG_INSTANCE_TITLE"`
 	Senders       struct {
-		Telegram telegramConf
-		Slack    slackConf
+		Telegram   telegramConf
+		Slack      slackConf
+		Mattermost mattermostConf
 	}
 }
 
@@ -26,6 +27,11 @@ type telegramConf struct {
 
 type slackConf struct {
 	AuthToken string `env:"SLACK_AUTH_TOKEN" show_last_symbols:"6"`
+}
+
+type mattermostConf struct {
+	Url    string `env:"MATTERMOST_URL"`
+	HookId string `env:"MATTERMOST_HOOK_ID"`
 }
 
 type DBConf struct {
@@ -51,6 +57,8 @@ func (c *appConfig) Load(fileNames ...string) error {
 		Variables: []string{
 			"TELEGRAM_BOT_TOKEN",
 			"SLACK_AUTH_TOKEN",
+			"MATTERMOST_URL",
+			"MATTERMOST_HOOK_ID",
 			"NG_UI_PORT",
 			"NG_DEBUG",
 			"NG_INSTANCE_TITLE",

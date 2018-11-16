@@ -1,7 +1,7 @@
 package senders
 
 import (
-	"github.com/appscode/go-notify/slack"
+	"github.com/inhuman/go-notify/slack"
 	"github.com/inhuman/notify_gate/config"
 	"github.com/inhuman/notify_gate/notify"
 	"github.com/inhuman/notify_gate/utils"

@@ -1,6 +1,7 @@
 package notify
 
 import (
+	"fmt"
 	"github.com/inhuman/notify_gate/db"
 	"github.com/jinzhu/gorm"
 	"strings"
@@ -22,6 +23,8 @@ func (n *Notify) Save() {
 		n.UIDsStr = strings.Join(n.UIDs, ";")
 	}
 
+	fmt.Println("uildstr:", n.UIDsStr)
+
 	db.Stor.Db().Save(n)
 }
 
@@ -39,6 +42,10 @@ func (n *Notify) Delete() {
 func GetNotify() *Notify {
 	ns := &Notify{}
 	db.Stor.Db().First(ns)
-	ns.UIDs = strings.Split(ns.UIDsStr, ";")
+
+	if ns.UIDsStr != "" {
+		ns.UIDs = strings.Split(ns.UIDsStr, ";")
+	}
+
 	return ns
 }

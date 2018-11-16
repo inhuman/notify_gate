@@ -1,8 +1,8 @@
 package senders
 
 import (
-	go_notify "github.com/appscode/go-notify"
-	"github.com/appscode/go-notify/telegram"
+	go_notify "github.com/inhuman/go-notify"
+	"github.com/inhuman/go-notify/telegram"
 	"github.com/inhuman/notify_gate/config"
 	"github.com/inhuman/notify_gate/notify"
 	"github.com/inhuman/notify_gate/utils"

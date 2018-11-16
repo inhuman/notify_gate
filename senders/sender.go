@@ -23,6 +23,7 @@ func Init() error {
 
 	initTelegramSender()
 	initSlackSender()
+	initMattermostSender()
 
 	atLeastOneProviderAvailable := false
 
@@ -60,9 +61,19 @@ func initSlackSender() {
 	}
 }
 
+// initMattermostSender is used for initialize mattermost sender
+func initMattermostSender() {
+	if (config.AppConf.Senders.Mattermost.Url != "") && (config.AppConf.Senders.Mattermost.HookId != "") {
+		initMattermostClient()
+		providers["MattermostChannel"] = sendToMattermostChat
+		log.Println("Mattermost sender initialized")
+	} else {
+		providers["MattermostChannel"] = nil
+	}
+}
+
 func AddSender(name string, f func(n *notify.Notify) error) error {
 	providers[name] = f
-
 	return nil
 }
 

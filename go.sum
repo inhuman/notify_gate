@@ -30,9 +30,8 @@ github.com/abdullin/seq v0.0.0-20160510034733-d5467c17e7af/go.mod h1:5Jv4cbFiHJM
 github.com/appscode/envconfig v0.0.0-20170921113945-183bbe643a28 h1:ZKxHhN4fC3BzLL9eqgvpuE8P69ypQ8Pej8O0jogN2/s=
 github.com/appscode/envconfig v0.0.0-20170921113945-183bbe643a28/go.mod h1:b7cbo+vlgg2i/tv4ntkhHVh/11deTg45pASklahQ5t0=
 github.com/appscode/go v0.0.0-20180903163430-0499c350ad26/go.mod h1:zyukjS0OWQTZvvDgdzxZEr+x4CcQhmR+h1q7fFCL5l0=
+github.com/appscode/go-notify v0.0.0-20180516083708-17078f08a5ba h1:mmxX6h0pfML66m93/VGiLEIPdmPpFTMWGtd74MeJVcw=
 github.com/appscode/go-notify v0.0.0-20180516083708-17078f08a5ba/go.mod h1:ta+dFCq77Bh3GwYmYtKuzO0HhDxsalgPelI4nDOk5lA=
-github.com/appscode/go-notify v0.0.0-20181013185957-effa87cf5fad h1:p7jRHynxEm91aWJ8DuLu5XiASLAzwKv0fVUmIx0rfKw=
-github.com/appscode/go-notify v0.0.0-20181013185957-effa87cf5fad/go.mod h1:jXdwjPXtOucG/KOeL2KEARa8NkQwZdKxMZFW83Dh8eY=
 github.com/armon/circbuf v0.0.0-20150827004946-bbbad097214e h1:QEF07wC0T1rKkctt1RINW/+RMTVmiwxETico2l3gxJA=
 github.com/armon/circbuf v0.0.0-20150827004946-bbbad097214e/go.mod h1:3U/XgcO3hCbHZ8TKRvWD2dDTCfh9M9ya+I9JpbB7O8o=
 github.com/armon/go-metrics v0.0.0-20180917152333-f0300d1749da h1:8GUt8eRujhVEGZFFEjBj46YV4rDjvGrNxb0KMWYkL2I=
@@ -216,12 +215,12 @@ github.com/hpcloud/tail v1.0.0/go.mod h1:ab1qPbhIpdTxEkNHXyeSf5vhxWSCs/tWer42PpO
 github.com/imdario/mergo v0.3.6 h1:xTNEAn+kxVO7dTZGu0CegyqKZmoWFI0rF8UxjlB2d28=
 github.com/imdario/mergo v0.3.6/go.mod h1:2EnlNZ0deacrJVfApfmtdGgDfMuh/nq6Ok1EcJh5FfA=
 github.com/inconshreveable/mousetrap v1.0.0/go.mod h1:PxqpIevigyE2G7u3NXJIT2ANytuPF1OarO4DADm73n8=
-github.com/inhuman/config_merger v0.1.11 h1:h2Niy7djHn93H4fmyyfrwkmOFXToL6FLUBNn+y4OXE0=
-github.com/inhuman/config_merger v0.1.11/go.mod h1:O34to2a0ud2Abh+bX2eFpQPSHH0OlQPiN4MsbT3n5EU=
 github.com/inhuman/config_merger v0.1.17 h1:xj9X5bbX325a0bWWV05dOF5Wz6UqqB/UX0PBBsVnniA=
 github.com/inhuman/config_merger v0.1.17/go.mod h1:AwNaLcV2EseOXB6QXQOMvsizAXWrGj5YXsXCVLn+gIw=
 github.com/inhuman/consul-kv-mapper v0.0.0-20180816140018-bac235d734fb h1:IsY9Ru05klySyOJn0aDxC6QNQnJYA9pO4Y3hY7LXrgA=
 github.com/inhuman/consul-kv-mapper v0.0.0-20180816140018-bac235d734fb/go.mod h1:GTlrcu5yoJgyJP33/rQjKSNfJpGE19mZHSKuqgEb/Fg=
+github.com/inhuman/go-notify v0.1.2 h1:wTuDIjItyx+YOI3LyjD55lYDKXcQ6CaRqrVOgILJTmM=
+github.com/inhuman/go-notify v0.1.2/go.mod h1:+LnANy5DQDk+/CuQTu7xie1QOahDBdw5dUkGBg4Cnzo=
 github.com/jarcoal/httpmock v0.0.0-20180424175123-9c70cfe4a1da h1:FjHUJJ7oBW4G/9j1KzlHaXL09LyMVM9rupS39lncbXk=
 github.com/jarcoal/httpmock v0.0.0-20180424175123-9c70cfe4a1da/go.mod h1:ks+b9deReOc7jgqp+e7LuFiCBH6Rm5hL32cLcEAArb4=
 github.com/jaytaylor/html2text v0.0.0-20180606194806-57d518f124b0/go.mod h1:CVKlgaMiht+LXvHG173ujK6JUhZXKb2u/BQtjPDIvyk=
