@@ -31,7 +31,6 @@ func (s *storage) Connect() error {
 		switch config.AppConf.DB.Type {
 		case "postgres":
 
-			//TODO: check config values if postgres
 			db, err := gorm.Open("postgres",
 				fmt.Sprintf("user=%s password=%s host=%s port=%s dbname=%s sslmode=disable",
 					config.AppConf.DB.User,
@@ -48,7 +47,7 @@ func (s *storage) Connect() error {
 			s.db = db
 		case "sqlite3":
 
-			db, err := gorm.Open("sqlite3", "notifies.db")
+			db, err := gorm.Open("sqlite3", "/tmp/notifies.db")
 			if err != nil {
 				return err
 			}

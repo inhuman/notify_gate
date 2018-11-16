@@ -1,7 +1,7 @@
 package notify
 
 import (
-	"fmt"
+	"github.com/inhuman/notify_gate/config"
 	"github.com/inhuman/notify_gate/db"
 	"github.com/jinzhu/gorm"
 	"strings"
@@ -19,11 +19,9 @@ type Notify struct {
 // Save is used for saving notify to db
 func (n *Notify) Save() {
 
-	if len(n.UIDs) > 0 {
+	if (len(n.UIDs) > 0) && (config.AppConf.DB.Type == "sqlite3") {
 		n.UIDsStr = strings.Join(n.UIDs, ";")
 	}
-
-	fmt.Println("uildstr:", n.UIDsStr)
 
 	db.Stor.Db().Save(n)
 }
@@ -43,7 +41,7 @@ func GetNotify() *Notify {
 	ns := &Notify{}
 	db.Stor.Db().First(ns)
 
-	if ns.UIDsStr != "" {
+	if (ns.UIDsStr != "") && (config.AppConf.DB.Type == "sqlite3") {
 		ns.UIDs = strings.Split(ns.UIDsStr, ";")
 	}
 
