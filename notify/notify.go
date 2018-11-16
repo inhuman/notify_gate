@@ -1,7 +1,6 @@
 package notify
 
 import (
-	"fmt"
 	"github.com/inhuman/notify_gate/config"
 	"github.com/inhuman/notify_gate/db"
 	"github.com/jinzhu/gorm"
@@ -44,7 +43,6 @@ func GetNotify() *Notify {
 
 	if (ns.UIDsStr != "") && (config.AppConf.DB.Type == "sqlite3") {
 		ns.UIDs = strings.Split(ns.UIDsStr, ";")
-		fmt.Println("ns.UIDsStr:", ns.UIDsStr)
 	}
 
 	return ns
