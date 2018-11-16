@@ -23,7 +23,7 @@ func sendToTelegramChat(n *notify.Notify) error {
 	log.Printf("notify: %+v\n", n)
 
 	err := telegramClient.
-		To("", n.UIDs...).
+		To(n.UIDs[0], n.UIDs[1:]...).
 		WithBody(n.Message).
 		Send()
 
